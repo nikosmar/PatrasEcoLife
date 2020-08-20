@@ -9,7 +9,7 @@ Web Dev university project
 ;extension=pdo_mysql
 ;extension=mysqli
 ```
-2) Mariadb/mysql service has to be running so that php web server can access it. Start it with:
+2) Start mariadb/mysql service so that php web server can access the site's database.
 
 `$ systemctl start mariadb.service`
 
