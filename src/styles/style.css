@@ -1,0 +1,46 @@
+html {
+  font-size: 14px; /* px means "pixels": the base font size is now 10 pixels high  */
+  font-family: "Open Sans", sans-serif; /* this should be the rest of the output you got from Google fonts */
+  background-color: #66023C;
+}
+
+
+h1 {
+  background-color: #406329;
+  text-align: center;
+}
+
+.login { 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -150px 0 0 -150px;
+  width:300px;
+  height:300px;
+}
+
+input { 
+  width: 100%; 
+  margin-bottom: 10px; 
+  background: #0000004d;
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-size: 13px;
+  color: white;
+  text-shadow: 1px 1px 1px black;
+  border: 1px solid #0000004d;
+  border-radius: 4px;
+  box-shadow: inset 0 -5px 45px #64646433, 0 1px 1px #ffffff33;
+  -webkit-transition: box-shadow .5s ease;
+  -moz-transition: box-shadow .5s ease;
+  -o-transition: box-shadow .5s ease;
+  -ms-transition: box-shadow .5s ease;
+  transition: box-shadow .5s ease;
+}
+input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px #ffffff33; }
+
+button.login {
+  width: fit-content;
+  display: inline-block
+}
