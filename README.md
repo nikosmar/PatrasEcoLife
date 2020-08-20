@@ -12,6 +12,7 @@ extension=mysqli
 2) Mariadb/mysql service has to be running so that php web server can access it. Start it with:
 
 `$ systemctl start mariadb.service`
+
 3) Start php webserver to emulate http communication:
 
 `$ php -S localhost:8000`
