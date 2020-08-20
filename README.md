@@ -1,8 +1,8 @@
 # PatrasEcoLife
 Web Dev university project
 
-# Setup Instructions
-## for Arch Linux / Manjaro
+## Setup Instructions
+### for Arch Linux / Manjaro
 
 1) Uncomment the following lines in /etc/php/php.ini
 extension=pdo_mysql
