@@ -13,6 +13,6 @@ extension=mysqli
 
 `$ systemctl start mariadb.service`
 
-3) Start php webserver to emulate http communication:
+3) cd to src directory and start php web server to emulate http communication:
 
 `$ php -S localhost:8000`
