@@ -4,7 +4,7 @@
     $username = $_POST["username"];
     $hashed_password = md5($_POST["password"]);
 
-    $result = mysqli_query($link, "SELECT * FROM users WHERE name='$username' AND password='$hashed_password'");
+    $result = mysqli_query($link, "SELECT * FROM users WHERE username='$username' AND password='$hashed_password'");
 
     if (mysqli_num_rows($result) == 1) {
         printf("successful login.\n");
