@@ -7,13 +7,17 @@
     $result = mysqli_query($link, "SELECT * FROM users WHERE username='$username' AND password='$hashed_password'");
 
     if (mysqli_num_rows($result) == 1) {
-        printf("successful login.\n");
+        // initiate logged-in user session
+        session_start();
+        $_SESSION['loggedin'] = true;
+        $_SESSION['username'] = $username;
+
+        header('Location: ..');
     }
     else {
         printf("wrong username or password.\n");
     }
 
     mysqli_free_result($result);
-
     mysqli_close($link);
 ?>

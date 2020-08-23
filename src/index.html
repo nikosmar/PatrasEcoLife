@@ -1,3 +1,11 @@
+<?php
+    session_start();
+    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+        echo "Welcome to the member's area, " . $_SESSION['username'] . "!";
+    } else {
+        echo "Please log in first to see this page.";
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,7 +20,7 @@
     </head>
     <body>
         <div id="loginForm" class="login">
-        <form action="http://localhost:8000/scripts/login.php" method="post">
+        <form action="scripts/login.php" method="post">
             <input type="text" name="username" placeholder="Username" required="required" />
             <input type="password" name="password" placeholder="Password" required="required" />
             <button type="submit" class="btn btn-primary btn-large">Sign in</button>
@@ -24,56 +32,5 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
         <script src="bootstrap-4.5.2-dist/js/bootstrap.min.js"></script>
         <script src="scripts/main.js"></script>
-
-        <script>
-            function loadRegisterForm() {
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        document.getElementById("loginForm").innerHTML = this.responseText;
-                    }
-                };
-                xhttp.open("GET", "register_form.html", true);
-                xhttp.send();
-            }
-        </script>
-        <script>
-            function passwordCheck(password) {
-                var upperLetter = false;
-                var number = false;
-                var symbol = false;
-        
-                password = password.trim();
-        
-                if (password.length < 8) {
-                    return false;
-                }
-        
-                var i;
-                var currrent_char;
-                var symbols = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '='];
-                for (i = 0; i < password.length; i++) {
-                    currrent_char = password[i];
-        
-                    // check if current character is an uppercase letter
-                    if (currrent_char.toLowerCase() != currrent_char.toUpperCase()) {
-                        if (currrent_char == currrent_char.toUpperCase()) {
-                            upperLetter = true;
-                        }
-                    }
-        
-                    // check if current character is a number
-                    if (!isNaN(currrent_char)) {
-                        number = true;
-                    }
-        
-                    if (symbols.includes(currrent_char)) {
-                        symbol = true;
-                    }
-                }
-        
-                return upperLetter && number && symbol;
-            }
-        </script>
     </body>
 </html>

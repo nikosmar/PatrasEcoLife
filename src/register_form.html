@@ -1,5 +1,5 @@
 <div id="registerForm" class="register">
-    <form action="http://localhost:8000/scripts/register.php" method="post" 
+    <form action="scripts/register.php" method="post" 
     oninput='passwordConfirm.setCustomValidity(passwordConfirm.value != password.value ? "Passwords do not match." : ""); 
     password.setCustomValidity(passwordCheck(password.value) ? "" : "Missing required characters.")'>
         <input type="text" name="username" placeholder="Username" required="required" />
