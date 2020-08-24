@@ -45,3 +45,14 @@ function passwordCheck(password) {
 
     return upperLetter && number && symbol;
 }
+
+function loadDataUploadForm() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("loginForm").innerHTML = this.responseText;
+        }
+    };
+    xhttp.open("GET", "data_upload_form.html", true);
+    xhttp.send();
+}

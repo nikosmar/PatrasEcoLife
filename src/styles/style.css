@@ -38,3 +38,5 @@ button[name="register"] {
     color: white;
     float: right;
 }
+
+#mapid{ height: 800px; }
