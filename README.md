@@ -11,7 +11,7 @@ Web Dev university project
 ```
 2) Start mariadb/mysql service so that apache/php can access the site's database.
 
-`$ systemctl start mariadb.service`
+`# systemctl start mariadb.service`
 
 3) Configure apache to run php scripts (see archwiki).
 
@@ -23,6 +23,6 @@ Web Dev university project
 
 6) Start apache daemon:
 
-`$ systemctl start httpd.service`
+`# systemctl start httpd.service`
 
 7) Access PEL via http://localhost/
