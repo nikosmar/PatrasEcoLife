@@ -17,9 +17,7 @@ Web Dev university project
 
 4) Configure apache to run html files as php scripts. Append the following line:
 
-`AddType application/x-httpd-php .html`
-
-to `/etc/httpd/conf/httpd.conf`
+`AddType application/x-httpd-php .html` to `/etc/httpd/conf/httpd.conf`
 
 5) Set apache server directory to src.
 
