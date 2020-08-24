@@ -1,7 +1,7 @@
 <?php
     $link = mysqli_connect("localhost", "nikosm", "1q2w3e4r", "site");
 
-    $username = $_POST["username"];
+    $username = mysqli_real_escape_string($link, $_POST["username"]);
     $hashed_password = md5($_POST["password"]);
 
     $result = mysqli_query($link, "SELECT * FROM users WHERE username='$username' AND password='$hashed_password'");
@@ -12,7 +12,7 @@
         $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $username;
 
-        header('Location: ..');
+        header('Location: ../loggedin.html');
     }
     else {
         printf("wrong username or password.\n");
