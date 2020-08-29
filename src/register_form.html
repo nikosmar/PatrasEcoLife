@@ -1,13 +1,7 @@
 <div id="registerForm" class="register">
-
-    <form action="scripts/register.php" method="post" 
-    oninput='passwordConfirm.setCustomValidity(passwordConfirm.value != password.value ? "Passwords do not match." : "")' 
-    oninput='password.setCustomValidity(passwordCheck(password.value) ? "" : "Missing required characters.")'>
-
     <form action="scripts/register.php" method="post" 
     oninput='passwordConfirm.setCustomValidity(passwordConfirm.value != password.value ? "Passwords do not match." : ""); 
     password.setCustomValidity(passwordCheck(password.value) ? "" : "Missing required characters.")'>
-
         <input type="text" name="username" placeholder="Username" required="required" />
         <input type="" name="firstName" placeholder="First Name" required="required" />
         <input type="text" name="lastName" placeholder="Last Name" required="required" />
@@ -19,42 +13,3 @@
         <button type="button" onclick="loadRegisterForm()" name="register" class="btn btn-large">Register</button>
     </form>
 </div>
-
-<script>
-    function passwordCheck(password) {
-        var upperLetter = false;
-        var number = false;
-        var symbol = false;
-
-        password = password.trim();
-
-        if (password.length < 8) {
-            return false;
-        }
-
-        var i;
-        var currrent_char;
-        var symbols = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '='];
-        for (i = 0; i < password.length; i++) {
-            currrent_char = password[i];
-
-            // check if current character is a letter
-            if (currrent_char.toLowerCase() != currrent_char.toUpperCase()) {
-                if (currrent_char == currrent_char.toUpperCase()) {
-                    upperLetter = true;
-                }
-            }
-
-            // check if current character is a number
-            if (!isNan(currrent_char)) {
-                number = true;
-            }
-
-            if (symbols.includes(currrent_char)) {
-                symbol = true;
-            }
-        }
-
-        return upperLetter && number && symbol;
-    }
-</script>
