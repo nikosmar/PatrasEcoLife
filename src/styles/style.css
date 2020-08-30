@@ -13,7 +13,7 @@ html {
     height: 300px;
 }
 
-input { 
+#loginForm input { 
     width: 100%; 
     margin-bottom: 10px; 
     background: #0000004d;
@@ -32,6 +32,7 @@ input {
     -ms-transition: box-shadow .5s ease;
     transition: box-shadow .5s ease;
 }
+
 input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px #ffffff33; }
 
 button[name="register"] {
@@ -39,4 +40,10 @@ button[name="register"] {
     float: right;
 }
 
-#mapid{ height: 800px; }
+#mapid {
+    height: 800px;
+}
+
+#uploadBar {
+    width: fit-content;
+}

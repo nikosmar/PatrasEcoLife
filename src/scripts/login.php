@@ -12,7 +12,7 @@
         $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $username;
 
-        header('Location: ../userpanel.html');
+        header('Location: ../userpanel.php');
     }
     else {
         printf("wrong username or password.\n");
