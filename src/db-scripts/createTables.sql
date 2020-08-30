@@ -1,5 +1,5 @@
 CREATE TABLE users (
-	userid VARCHAR(128) NOT NULL PRIMARY KEY,
+    userid VARCHAR(128) NOT NULL PRIMARY KEY,
     username VARCHAR(128) NOT NULL UNIQUE KEY,
     password CHAR(32) NOT NULL,
     email varchar(128) NOT NULL,
