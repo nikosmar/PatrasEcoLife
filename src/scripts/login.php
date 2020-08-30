@@ -7,12 +7,15 @@
     $result = mysqli_query($link, "SELECT * FROM users WHERE username='$username' AND password='$hashed_password'");
 
     if (mysqli_num_rows($result) == 1) {
-        // initiate logged-in user session
-        session_start();
-        $_SESSION['loggedin'] = true;
-        $_SESSION['username'] = $username;
+        while($row = mysqli_fetch_assoc($result)) {
+            // initiate logged-in user session
+            session_start();
+            $_SESSION['loggedin'] = true;
+            $_SESSION['userid'] = $row["userid"];
+            $_SESSION['username'] = $username;
 
-        header('Location: ../userpanel.html');
+            header('Location: ../userpanel.php');
+        }
     }
     else {
         printf("wrong username or password.\n");
