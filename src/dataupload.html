@@ -16,6 +16,11 @@
         <script src="leaflet-geoman/leaflet-geoman.min.js"></script>
     </head>
     <body>
+        <form action="scripts/upload.php" method="post" enctype="multipart/form-data">
+            Select JSON to upload:
+            <input type="file" name="fileToUpload" id="fileToUpload">
+            <input type="submit" value="Upload JSON" name="submit">
+        </form>  
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="#">Navbar</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
