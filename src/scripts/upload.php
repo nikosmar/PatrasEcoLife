@@ -56,7 +56,7 @@ function update_table($name){
         echo "Successful";
     }
     else{
-        echo "Database error."
+        echo "Database error.";
         exit(1);
     }
 }
