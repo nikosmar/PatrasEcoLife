@@ -4,11 +4,16 @@ Web Dev university project
 ## Setup Instructions
 ### for Arch Linux / Manjaro
 
-1) Uncomment (delete ';') the following lines in /etc/php/php.ini
+1) Uncomment (delete ';') the following line in /etc/php/php.ini
 ```
-;extension=pdo_mysql
 ;extension=mysqli
 ```
+and change these:
+```
+upload_max_filesize = 1G;
+post_max_size = 1G;
+```
+
 2) Start mariadb/mysql service so that apache/php can access the site's database.
 
 `# systemctl start mariadb.service`
@@ -26,24 +31,3 @@ Web Dev university project
 `# systemctl start httpd.service`
 
 7) Access PEL via http://localhost/
-
-## Upload
-
-Create the table as below:  
-
-```sql
-CREATE TABLE upload (
-    id INT AUTO_INCREMENT,
-    PRIMARY KEY (id),
-    username VARCHAR(128),
-    file_path VARCHAR(100),
-    FOREIGN KEY (username) REFERENCES users(username)
-);
-```
-
-Edit the below variables in the php.ini file:
-
-```bash
-upload_max_filesize = 1G;
-post_max_size = 1G;
-```

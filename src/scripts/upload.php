@@ -25,7 +25,7 @@ if(isset($_POST['submit'])){
 function valid_file_type($name){
     $extension = end(explode(".", $name));
     if ($extension != "json"){
-        echo "File provided is not json. Please provide a.json file.";
+        echo "File provided is not json. Please provide a .json file.";
         exit(1);
     }
 }
