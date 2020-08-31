@@ -21,6 +21,26 @@ mymap.setMinZoom(11);
 
 mymap.setView([38.230462, 21.753150], 14);
 
+var locationHistory = {"locations" : []};
+
+function updateJObject(location, lat, lng) {
+    location.latitudeE7 = lat;
+    location.longitudeE7 = lng;
+
+    try {
+        var activity = location.activity[0].activity[0];
+
+        if (location.activity.activity[0].type == "UNKNOWN") {
+            location.activity.activity[0].type = "STILL";
+        }
+
+        location.activity[0].activity.splice(1, 1);
+    }
+    catch {}
+
+    locationHistory.locations.push(location);
+}
+
 function loadData(event) {
     let patrasCenter = L.latLng(38.230462, 21.753150);
 
@@ -43,7 +63,7 @@ function loadData(event) {
             let currentPoint = L.latLng(Number.parseFloat(curLat).toFixed(5), Number.parseFloat(curLng).toFixed(5));
 
             if (currentPoint.distanceTo(patrasCenter) <= 10000) {
-                
+                updateJObject(obj.locations[i], curLat, curLng);
                 var found = false;
                 
                 for (var j = 0; j < locations.data.length; j++) {
@@ -104,9 +124,7 @@ function deleteDistantPoints() {
 
 
 /*
-
 var txt = '{"locations" : [ {"timestampMs" : "1583970659263", "latitudeE7" : 382318443, "longitudeE7" : 217366993, "accuracy" : 1924, "activity" : [ {"timestampMs" : "1583970659529", "activity" : [ { "type" : "STILL", "confidence" : 97}, {"type" : "UNKNOWN", "confidence" : 2}]} ] }] }'
 var obj = JSON.parse(txt);
 document.getElementById("demo").innerHTML = obj.locations[0].activity[0].timestampMs;
-
 */
