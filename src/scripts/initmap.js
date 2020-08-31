@@ -12,10 +12,9 @@ mymap.pm.addControls({
 
 mymap.addLayer(osm);
 
-mymap.setView([38.2462420, 21.7350847], 16);
-
-
-//L.circle([38.2462420, 21.7350847], 10000).addTo(mymap);
+let southWest = L.latLng(38.02, 21,3);
+let northEast = L.latLng(38.32, 22.12);
+let bounds = L.latLngBounds(southWest, northEast);
 
 mymap.setMaxBounds(bounds);
 mymap.setMinZoom(11);
