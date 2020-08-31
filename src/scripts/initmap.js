@@ -12,14 +12,35 @@ mymap.pm.addControls({
 
 mymap.addLayer(osm);
 
-let southWest = L.latLng(38.02, 21,3);
-let northEast = L.latLng(38.32, 22.12);
-let bounds = L.latLngBounds(southWest, northEast);
+mymap.setView([38.2462420, 21.7350847], 16);
+
+
+//L.circle([38.2462420, 21.7350847], 10000).addTo(mymap);
 
 mymap.setMaxBounds(bounds);
 mymap.setMinZoom(11);
 
 mymap.setView([38.230462, 21.753150], 14);
+
+var locationHistory = {"locations" : []};
+
+function updateJObject(location, lat, lng) {
+    location.latitudeE7 = lat;
+    location.longitudeE7 = lng;
+
+    try {
+        var activity = location.activity[0].activity[0];
+
+        if (location.activity.activity[0].type == "UNKNOWN") {
+            location.activity.activity[0].type = "STILL";
+        }
+
+        location.activity[0].activity.splice(1, 1);
+    }
+    catch {}
+
+    locationHistory.locations.push(location);
+}
 
 function loadData(event) {
     let patrasCenter = L.latLng(38.230462, 21.753150);
@@ -43,7 +64,7 @@ function loadData(event) {
             let currentPoint = L.latLng(Number.parseFloat(curLat).toFixed(5), Number.parseFloat(curLng).toFixed(5));
 
             if (currentPoint.distanceTo(patrasCenter) <= 10000) {
-                
+                updateJObject(obj.locations[i], curLat, curLng);
                 var found = false;
                 
                 for (var j = 0; j < locations.data.length; j++) {
@@ -110,3 +131,4 @@ var obj = JSON.parse(txt);
 document.getElementById("demo").innerHTML = obj.locations[0].activity[0].timestampMs;
 
 */
+
