@@ -17,11 +17,11 @@ if(isset($_POST['prunedLocationHistory']) && isset($_POST['fileName'])){
 
 function writeFile($name, $location, $txt){
     mkdir($location);
-    $path = check_duplicate_file($location, $name);
+    $fileSpecs = json_decode(check_duplicate_file($location, $name));
     valid_file_type($name);
-    $myfile = fopen("$path", "w") or die("Unable to open file!");
+    $myfile = fopen("$fileSpecs->path$fileSpecs->filename", "w") or die("Unable to open file!");
     fwrite($myfile, $txt);
-    update_table($name);
+    update_table($fileSpecs->filename);
     echo 'File uploaded successfully!';
 }
 
@@ -44,7 +44,9 @@ function check_duplicate_file($location, $file){
         $file = "$location$filename$copies.$extension";
         $index++;
     }
-    return $file;
+    $file_specs->path = $location;
+    $file_specs->filename = "$filename$copies.$extension";
+    return json_encode($file_specs);
 }
 
 function update_table($name){
