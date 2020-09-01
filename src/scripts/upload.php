@@ -6,20 +6,23 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
     header('Location: ../index.html');
 }
 
-if(isset($_POST['submit'])){
-    $name       = $_FILES['fileToUpload']['name'];  
-    $temp_name  = $_FILES['fileToUpload']['tmp_name'];
+
+
+if(isset($_POST['prunedLocationHistory']) && isset($_POST['fileName'])){
+    $file_text = $_POST['prunedLocationHistory'];
+    $name     =   $_POST['fileName'];
     $location = '../uploads/';
-    valid_file_type($name);
+    writeFile($name, $location, $file_text);
+}
+
+function writeFile($name, $location, $txt){
+    mkdir($location);
     $path = check_duplicate_file($location, $name);
-    if(isset($name) and !empty($name)){
-        if(move_uploaded_file($temp_name, $path)){
-            update_table($name);
-            echo 'File uploaded successfully!';
-        }
-    } else {
-        echo 'You should select a file to upload!';
-    }
+    valid_file_type($name);
+    $myfile = fopen("$path", "w") or die("Unable to open file!");
+    fwrite($myfile, $txt);
+    update_table($name);
+    echo 'File uploaded successfully!';
 }
 
 function valid_file_type($name){
@@ -60,5 +63,6 @@ function update_table($name){
         exit(1);
     }
 }
+
 
 ?>
