@@ -6,6 +6,7 @@ let osm = new L.TileLayer(osmUrl, {attribution: osmAttrib});
 
 mymap.pm.addControls({
     position: 'topleft',
+    drawPolyline: false,
     drawCircle: false,
     drawCircleMarker: false,
 });
@@ -20,6 +21,37 @@ mymap.setMaxBounds(bounds);
 mymap.setMinZoom(11);
 
 mymap.setView([38.230462, 21.753150], 14);
+
+var locationHistory = {"locations" : []};
+
+function updateJObject(location, lat, lng) {
+    var jsonObject = {
+        "timestampMs" : location.timestampMs.toString(),
+        "latitudeE7" : lat,
+        "longitudeE7" : lng,
+        "accuracy" : location.accuracy,
+        "activity" : []
+    };
+
+    var i;
+    if (location.activity !== undefined) {
+        for (i = 0; i < location.activity.length; i++) {
+            var activityObject = {
+                "timestampMs" : location.activity[i].timestampMs.toString(),
+                "activity" : []
+            };
+    
+            activityObject.activity.push(location.activity[i].activity[0]);
+            jsonObject.activity.push(activityObject);
+    
+            if (jsonObject.activity[i].activity[0].type == "UNKNOWN") {
+                jsonObject.activity[i].activity[0].type = "STILL";
+            }
+        }
+    }
+
+    locationHistory.locations.push(jsonObject);
+}
 
 function loadData(event) {
     let patrasCenter = L.latLng(38.230462, 21.753150);
@@ -43,7 +75,7 @@ function loadData(event) {
             let currentPoint = L.latLng(Number.parseFloat(curLat).toFixed(5), Number.parseFloat(curLng).toFixed(5));
 
             if (currentPoint.distanceTo(patrasCenter) <= 10000) {
-                
+                updateJObject(obj.locations[i], curLat, curLng);
                 var found = false;
                 
                 for (var j = 0; j < locations.data.length; j++) {
@@ -83,30 +115,41 @@ function loadData(event) {
     reader.readAsText(selectedFile);
 }
 
-function deleteDistantPoints() {
-    let patrasCenter = L.latLng(38.230462, 21.753150);
+function prunSensitiveLocations() {
+    var prunedLocationHistory = {"locations" : []};
+    var polygons = [];
+    var coordinates = [];
+    var polygonCornerLat;
+    var polygonCornerLng;
+    
+    var i;
+    var j;
 
-    let shapes = mymap.pm.Draw.getActiveShape();
+    var shapes = L.PM.Utils.findLayers(mymap);
 
-    console.log(L.PM.Utils.findLayers(mymap));
-    console.log(L.PM.Utils.findLayers(mymap)[1]._latlngs[0][0].lat);
-    console.log(L.PM.Utils.findLayers(mymap)[1]._latlngs[0][0].lng);
+    for (i = 0; i < shapes.length; i++) {
+        coordinates = [];
+        for (j = 0; j < shapes[i]._latlngs[0].length; j++) {
+            polygonCornerLat = shapes[i]._latlngs[0][j].lat;
+            polygonCornerLng = shapes[i]._latlngs[0][j].lng;
 
-    let currentPoint = L.latLng(39.230462, 21.753150);
-
-    if (currentPoint.distanceTo(patrasCenter) > 10000) {
-        console.log(currentPoint.distanceTo(patrasCenter));
-        // delete point
+            coordinates.push([polygonCornerLat, polygonCornerLng]);
+        }
+        polygons.push(L.polygon(coordinates));
     }
 
-    return false;
+    for (i = 0; i < locationHistory.locations.length; i++) {
+        var deletePoint = false;
+
+        for (j = 0; j < polygons.length; j++) {
+            if (polygons[j].contains(L.marker([locationHistory.locations[i].latitudeE7, locationHistory.locations[i].longitudeE7]).getLatLng())) {
+                deletePoint = true;
+                break;
+            }
+        }
+
+        if (!deletePoint) {
+            prunedLocationHistory.locations.push(locationHistory.locations[i]);
+        }
+    }
 }
-
-
-/*
-
-var txt = '{"locations" : [ {"timestampMs" : "1583970659263", "latitudeE7" : 382318443, "longitudeE7" : 217366993, "accuracy" : 1924, "activity" : [ {"timestampMs" : "1583970659529", "activity" : [ { "type" : "STILL", "confidence" : 97}, {"type" : "UNKNOWN", "confidence" : 2}]} ] }] }'
-var obj = JSON.parse(txt);
-document.getElementById("demo").innerHTML = obj.locations[0].activity[0].timestampMs;
-
-*/
