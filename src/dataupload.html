@@ -17,6 +17,8 @@
 
         <script src="libs/heatmapjs/build/heatmap.js"></script>
         <script src="libs/heatmapjs/plugins/leaflet-heatmap/leaflet-heatmap.js"></script>
+
+        <script src="libs/point-in-polygon/wise-leaflet-pip.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -59,7 +61,7 @@
             <form id="uploadForm" action="scripts/upload.php" method="post" enctype="multipart/form-data">
                 Select JSON to upload:
                 <input type="file" name="fileToUpload" id="fileToUpload" onchange="loadData(event)">
-                <input type="submit" value="Upload JSON" class="btn btn-outline-primary my-2 my-sm-0" name="submit">
+                <input type="submit" value="Upload JSON" class="btn btn-outline-primary my-2 my-sm-0" name="submit" onclick="prunSensitiveLocations()">
             </form>
         </div>
 
