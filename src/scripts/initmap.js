@@ -24,24 +24,8 @@ mymap.setView([38.230462, 21.753150], 14);
 
 var locationHistory = {"locations" : []};
 var selectedFile;
+
 function updateJObject(location, lat, lng) {
-
-    location.latitudeE7 = lat;
-    location.longitudeE7 = lng;
-
-    try {
-        var activity = location.activity[0].activity[0];
-
-        if (location.activity.activity[0].type == "UNKNOWN") {
-            location.activity.activity[0].type = "STILL";
-        }
-
-        location.activity[0].activity.splice(1, 1);
-    }
-    catch {}
-
-    locationHistory.locations.push(location);
-
     var jsonObject = {
         "timestampMs" : location.timestampMs.toString(),
         "latitudeE7" : lat,
@@ -68,7 +52,6 @@ function updateJObject(location, lat, lng) {
     }
 
     locationHistory.locations.push(jsonObject);
-
 }
 
 function loadData(event) {
