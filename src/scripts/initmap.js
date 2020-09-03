@@ -116,9 +116,9 @@ function loadData(event) {
     reader.readAsText(selectedFile);
 }
 
-$("#upload_btn").on('click', function(e){
+$("#upload_btn").on('click', function(e) {
     prunSensitiveLocations();
-})
+});
 
 function prunSensitiveLocations() {
     var prunedLocationHistory = {"locations" : []};
@@ -157,9 +157,16 @@ function prunSensitiveLocations() {
             prunedLocationHistory.locations.push(locationHistory.locations[i]);
         }
     }
-    $.post("scripts/upload.php", {prunedLocationHistory: JSON.stringify(prunedLocationHistory), fileName: selectedFile["name"]}, function(data, status, jqXHR){
-        if (status == "success"){
-            alert("Success");
+
+    $.ajax({
+        type: 'POST',
+        url: 'scripts/upload.php',
+        data: {prunedLocationHistory: JSON.stringify(prunedLocationHistory), fileName: selectedFile["name"]},
+        success: function() {
+            alert('File uploaded successfully.');
+        },
+        error: function() {
+            alert('An error occured.');
         }
     });
 }

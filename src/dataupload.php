@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -33,7 +36,7 @@
                         <a class="nav-link" href="./userpanel.php">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="./dataupload.html">Data upload</a>
+                        <a class="nav-link" href="./dataupload.php">Data upload</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -54,10 +57,9 @@
         </nav>
 
         <div id="mapid"></div>
-
         
         <div id="uploadBar" class="p-1 mb-2 bg-dark text-white">
-            <form id="uploadForm" enctype="multipart/form-data">
+            <form id="uploadForm" enctype="multipart/form-data" onsubmit="return false;">
                 Select JSON to upload:
                 <input type="file" name="fileToUpload" id="fileToUpload" onchange="loadData(event)">
                 <input type="submit" id="upload_btn" value="Upload JSON" class="btn btn-outline-primary my-2 my-sm-0" name="submit">

@@ -26,10 +26,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="./userpanel.php">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./dataupload.html">Data upload</a>
+                        <a class="nav-link" href="./dataupload.php">Data upload</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -46,7 +46,7 @@
                 <form class="form-inline my-2 my-lg-0" action="scripts/logout.php" method="post">
                     <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Logout</button>
                 </form>
-            </div>            
+            </div>
         </nav>
 
         <div class="myDiv">
