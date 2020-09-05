@@ -2,12 +2,14 @@
 session_start();
 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
-    header('Location: ../index.html');
+    header('Location: ..');
 }
 
 if (isset($_POST['prunedLocationHistory']) && isset($_POST['fileName'])) {
     $file_text = $_POST['prunedLocationHistory'];
-    $name     =   $_POST['fileName'];
+    
+    $name = $_SESSION['username'] . "_" . time() . "." . end(explode(".", $_POST['fileName']));
+    rename($_POST['fileName'], $name);
     $location = '../uploads/';
     writeFile($name, $location, $file_text);
 }

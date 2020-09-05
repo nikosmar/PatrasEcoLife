@@ -1,5 +1,8 @@
 <?php
     session_start();
+    if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == false) {
+        header('Location: .');
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,10 +62,10 @@
         <div id="mapid"></div>
         
         <div id="uploadBar" class="p-1 mb-2 bg-dark text-white">
-            <form id="uploadForm" enctype="multipart/form-data" onsubmit="return false;">
+            <form id="uploadForm" enctype="multipart/form-data">
                 Select JSON to upload:
                 <input type="file" name="fileToUpload" id="fileToUpload" onchange="loadData(event)">
-                <input type="submit" id="upload_btn" value="Upload JSON" class="btn btn-outline-primary my-2 my-sm-0" name="submit">
+                <input type="button" id="upload_btn" value="Upload JSON" class="btn btn-outline-primary my-2 my-sm-0" name="submit">
             </form>
         </div>
         
