@@ -1,4 +1,6 @@
 <?php
+    session_start();
+    
     $link = mysqli_connect("localhost", "nikosm", "1q2w3e4r", "site");
 
     $username = mysqli_real_escape_string($link, $_POST["username"]);

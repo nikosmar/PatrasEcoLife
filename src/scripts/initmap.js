@@ -23,6 +23,7 @@ mymap.setMinZoom(11);
 mymap.setView([38.230462, 21.753150], 14);
 
 var locationHistory = {"locations" : []};
+var selectedFile;
 
 function updateJObject(location, lat, lng) {
     var jsonObject = {
@@ -56,7 +57,7 @@ function updateJObject(location, lat, lng) {
 function loadData(event) {
     let patrasCenter = L.latLng(38.230462, 21.753150);
 
-    var selectedFile = event.target.files[0];
+    selectedFile = event.target.files[0];
     var reader = new FileReader();
 
     let locations = {
@@ -115,6 +116,10 @@ function loadData(event) {
     reader.readAsText(selectedFile);
 }
 
+$("#upload_btn").on('click', function(e) {
+    prunSensitiveLocations();
+});
+
 function prunSensitiveLocations() {
     var prunedLocationHistory = {"locations" : []};
     var polygons = [];
@@ -152,4 +157,16 @@ function prunSensitiveLocations() {
             prunedLocationHistory.locations.push(locationHistory.locations[i]);
         }
     }
+
+    $.ajax({
+        type: 'POST',
+        url: 'scripts/upload.php',
+        data: {prunedLocationHistory: JSON.stringify(prunedLocationHistory), fileName: selectedFile["name"]},
+        success: function() {
+            alert('File uploaded successfully.');
+        },
+        error: function() {
+            alert('An error occured.');
+        }
+    });
 }
