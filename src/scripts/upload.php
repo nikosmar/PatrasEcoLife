@@ -20,7 +20,8 @@ function writeFile($name, $location, $txt) {
     valid_file_type($name);
     $myfile = fopen("$fileSpecs->path$fileSpecs->filename", "w") or die("Unable to open file!");
     fwrite($myfile, $txt);
-    update_table($fileSpecs->filename);
+    update_upload_table($fileSpecs->filename);
+    update_activities_table($location, $fileSpecs->filename);
     echo 'File uploaded successfully!';
 }
 
@@ -52,7 +53,7 @@ function check_duplicate_file($location, $file) {
     return json_encode($file_specs);
 }
 
-function update_table($name) {
+function update_upload_table($name) {
     $link = mysqli_connect("localhost", "nikosm", "1q2w3e4r", "site");
     $username = $_SESSION["username"];
     $sql = "INSERT INTO upload (username, file_path) VALUES (
@@ -66,6 +67,48 @@ function update_table($name) {
     else {
         echo "Database error.";
         exit(1);
+    }
+}
+
+function update_activities_table($location, $name) {
+    $link = mysqli_connect("localhost", "nikosm", "1q2w3e4r", "site");
+    $username = $_SESSION["username"];
+    
+    $file_path = $location . $name;
+    $json_string = file_get_contents($file_path);
+    $json_data = json_decode($json_string, true);
+
+    $locations = $json_data['locations'];
+    
+    for ($i = 0; $i < count($locations); $i++) {
+        $lat = $locations[$i]['latitudeE7'];
+        $lng = $locations[$i]['longitudeE7'];
+        
+        $activities = $locations[$i]['activity'];
+
+        for ($j = 0; $j < count($activities); $j++) {
+            $type = $activities[$j]['activity'][0]['type'];
+        
+            $ts = $activities[$j]['timestampMs'];
+            $ts = $ts / 1000;
+            $date = date("Y-m-d H:i:s", $ts);
+
+            $sql = "INSERT INTO activities (username, ts, activity_type, latitude, longitude) VALUES (
+                '$username',
+                '$date',
+                '$type',
+                $lat,
+                $lng
+            )";
+
+            if ($link->query($sql)) {
+                echo "Successful";
+            }
+            else {
+                echo "Database error.";
+                exit(1);
+            }
+        }
     }
 }
 ?>
