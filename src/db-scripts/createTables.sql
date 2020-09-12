@@ -14,3 +14,14 @@ CREATE TABLE upload (
     file_path VARCHAR(100),
     FOREIGN KEY (username) REFERENCES users(username)
 );
+
+CREATE TABLE activities (
+    id INT AUTO_INCREMENT,
+    PRIMARY KEY (id),
+    username VARCHAR(128),
+    ts TIMESTAMP NOT NULL,
+    activity_type VARCHAR(64),
+    latitude FLOAT,
+    longitude FLOAT,
+    FOREIGN KEY (username) REFERENCES users(username)
+);
