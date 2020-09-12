@@ -44,6 +44,12 @@ button[name="register"] {
     height: 800px;
 }
 
-#uploadBar {
+#yolo {
+    display: flex;
+    position: relative;
     width: fit-content;
+}
+
+#yolo input {
+    width: 100px;
 }

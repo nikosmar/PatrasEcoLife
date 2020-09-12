@@ -10,8 +10,6 @@
 
     if (mysqli_num_rows($result) == 1) {
         while($row = mysqli_fetch_assoc($result)) {
-            // initiate logged-in user session
-            session_start();
             $_SESSION['loggedin'] = true;
             $_SESSION['userid'] = $row["userid"];
             $_SESSION['username'] = $username;

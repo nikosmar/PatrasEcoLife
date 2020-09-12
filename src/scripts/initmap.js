@@ -73,7 +73,10 @@ function loadData(event) {
             let curLat = obj.locations[i].latitudeE7 / 10000000;
             let curLng = obj.locations[i].longitudeE7 / 10000000;
 
-            let currentPoint = L.latLng(Number.parseFloat(curLat).toFixed(5), Number.parseFloat(curLng).toFixed(5));
+            curLat = curLat.toFixed(5);
+            curLng = curLng.toFixed(5);
+
+            let currentPoint = L.latLng(curLat, curLng);
 
             if (currentPoint.distanceTo(patrasCenter) <= 10000) {
                 updateJObject(obj.locations[i], curLat, curLng);

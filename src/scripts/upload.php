@@ -86,6 +86,11 @@ function update_activities_table($location, $name) {
         
         $activities = $locations[$i]['activity'];
 
+        /*$logfile = "logs/" . $i . ".log";
+        //$data = $username . ' ' . $date . ' ' . $type . ' ' . $lat . ' ' . $lng;
+        $var_str = var_export($activities, true);
+        file_put_contents($logfile, $var_str);*/
+
         for ($j = 0; $j < count($activities); $j++) {
             $type = $activities[$j]['activity'][0]['type'];
         
