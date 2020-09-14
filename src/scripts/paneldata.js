@@ -56,14 +56,77 @@ function showUserScore(str) {
         $.ajax({ 
             type: 'GET',
     	    url: 'scripts/user_panel_data.php',
-            data: [{"activitie_type":"", "ts":""}],
+            dataType : 'json',
     	    success: function(data){
-                alert('tipota');
-    	    	console.log(data);
+
+                var data2 = {
+                    Month : [],
+                    EcoScore : []
+                };
+
+                var today = new Date();
+                var currentMonth = String(today.getMonth() + 1); //January is 0!
+                var currentYear = today.getFullYear();
+               
+                var checkMonth = data[0]["MONTH(ts)"];
+                var actity_counter = 0;
+                var eco_counter = 0;
+                var EcoScore = 0;
+                var currentEcoScore = 0 ;
+
+                if(data && data.length){
+                    for (var i = 0; i < data.length; i++){
+                        if(data[i]["YEAR(ts)"] == currentYear && data[i]["MONTH(ts)"] == currentMonth){
+                            actity_counter +=  parseInt(data[i]["cnt"]);
+                            if(data[i]["activity_type"].includes('VEHICLE') != true){
+                                eco_counter += parseInt(data[i]["cnt"]);
+                            }
+                        }else {
+                            actity_counter +=  parseInt(data[i]["cnt"]);
+
+                            if(data[i]["activity_type"].includes('VEHICLE') != true){
+                                eco_counter += parseInt(data[i]["cnt"]);
+                            }
+                        }
+                        if(i+1 != data.length){
+                            if(data[i+1]["MONTH(ts)"] != checkMonth ){
+                                // set the values of the month 
+                                EcoScore = eco_counter/actity_counter*100;
+                                data2.Month.push(checkMonth);
+                                data2.EcoScore.push(parseFloat(EcoScore).toFixed(2));
+                                // set the current month's EcoScore
+                                if(data[i]["YEAR(ts)"] == currentYear && data[i]["MONTH(ts)"] == currentMonth){
+                                    currentEcoScore = eco_counter/actity_counter*100;
+                                    currentEcoScore = parseFloat(currentEcoScore).toFixed(2);
+                                   
+                                }
+                                // reset the counters
+                                actity_counter = 0;
+                                eco_counter = 0;
+                                checkMonth = data[i+1]["MONTH(ts)"];     
+                            }
+                        }else{
+                            EcoScore = eco_counter/actity_counter*100;
+                            data2.Month.push(checkMonth);
+                            data2.EcoScore.push(parseFloat(EcoScore).toFixed(2));
+                            // set the current month's EcoScore (if query is asc) 
+                            if(data[i]["YEAR(ts)"] == currentYear && data[i]["MONTH(ts)"] == currentMonth){
+                                    currentEcoScore = eco_counter/actity_counter*100;
+                                    currentEcoScore = parseFloat(currentEcoScore).toFixed(2);
+                                    console.log(currentEcoScore);
+                            }
+                            break;
+                        }
+                    }
+                        console.log(data2);
+                        console.log(currentEcoScore);                   
+                } else{
+                    console.log('You dont have any data');
+                }
+                // console.log(data2);
     	    },
     	    error: function(xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");
-                alert("to mpoulo");
             }
     	});
     });

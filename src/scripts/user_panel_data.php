@@ -16,17 +16,12 @@
   		exit();
 	}
 
-	$sql = mysqli_query($conn, "SELECT activity_type, ts FROM activities WHERE username = '$session_username' AND activity_type <> 'TILTING' AND activity_type <> 'STILL' AND ts >  DATE_SUB(now(), INTERVAL 12 MONTH)  ORDER BY ts DESC; ");
+	$sql = mysqli_query($conn, "SELECT YEAR(ts), MONTH(ts),activity_type, COUNT(*) AS cnt FROM activities WHERE username = '$session_username' AND activity_type <> 'TILTING' AND activity_type <> 'STILL'AND ts > DATE_SUB(now(), INTERVAL 12 MONTH) GROUP BY YEAR(ts), MONTH(ts), activity_type ; ");
 
 	$data = array();
 	if (mysqli_num_rows($sql) > 0) {
 		foreach ($sql as $row) {
 			$data[] = $row;
-			$logfile = db_con . ".log";
-			// $data = $username . ' ' . $date . ' ' . $type . ' ' . $lat . ' ' . $lng;
-			$var_str = var_export($data , true);
-			file_put_contents($logfile, $var_str);
-
 		}
 	}
 	else {
