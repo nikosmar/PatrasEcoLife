@@ -51,12 +51,12 @@
             </div>            
         </nav>
 
-        <div id="mapid"></div>
+        <div id="mapdiv"></div>
         
         <div id="uploadBar" class="p-1 mb-2 bg-dark text-white">
             <form id="uploadForm" enctype="multipart/form-data">
                 Select JSON to upload:
-                <input type="file" name="fileToUpload" id="fileToUpload" onchange="loadData(event)">
+                <input type="file" name="fileToUpload" id="fileToUpload">
                 <input type="button" id="upload_btn" value="Upload JSON" class="btn btn-outline-primary my-2 my-sm-0" name="submit">
             </form>
         </div>
@@ -66,5 +66,17 @@
         <script src="libs/bootstrap-4.5.2-dist/js/bootstrap.min.js"></script>
         <script src="scripts/main.js"></script>
         <script src="scripts/initmap.js"></script>
+
+        <script>
+            let datamap = createMap("mapdiv", true);
+
+            $('#fileToUpload').change(function() {
+                datamap = loadData(event, datamap);
+            });
+            
+            $("#upload_btn").on('click', function(e) {
+                prunSensitiveLocations(datamap);
+            });
+        </script>
     </body>
 </html>

@@ -5,10 +5,11 @@
 
     $username = $_SESSION["username"];
 
-    $result = mysqli_query($link, "SELECT activity_type, COUNT(*) AS cnt from activities where username='$username' GROUP BY activity_type ORDER BY COUNT(*)");
+    $result = mysqli_query($link, "SELECT activity_type, COUNT(*) AS cnt FROM activities WHERE username='$username' GROUP BY activity_type ORDER BY COUNT(*)");
 
     $sum = 0;
-
+    $result_array = Array();
+    
     foreach($result as $row) {
         $sum += $row["cnt"];
     }
@@ -17,8 +18,10 @@
         $type = $row["activity_type"];
         $perc = $row["cnt"] * 100 / $sum;
         $perc = round($perc, 1);
-        echo "<td>" . $type . " : " . $perc . "\n</td>";
+        $result_array[] = array("type" => $type, "percentage" => $perc);
     }
+
+    echo json_encode($result_array);
 
     mysqli_free_result($result);
     mysqli_close($link);
