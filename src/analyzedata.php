@@ -15,7 +15,7 @@
         <link href="libs/bootstrap-4.5.2-dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="styles/style.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans" rel="stylesheet">
-        <link rel="stylesheet" href="libs/leaflet/leaflet.css" />
+        <link href="libs/leaflet/leaflet.css" rel="stylesheet"/>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.css" rel="stylesheet"/>
     </head>
     <body>
@@ -43,45 +43,69 @@
             </div>
         </nav>
 
-        <div id="dateFilter">
-            <input type="text" id="datepicker">
-            <input type="number" id="hour" name="hour" min="0" max="23" placeholder="18">
-            <input type="number" id="minutes" name="minutes" min="0" max="59" placeholder="30">
-            <input type="button" value="Filter" class="btn btn-outline-primary my-2 my-sm-0" id="filter">
-        </div>
-
         <div id="dataContainer" class="container-fluid pt-3">
-            <div id="dataContainerLeft" class="container">
-                <div id="percentageTableCon" class="table-responsive-sm">
-                    <table id="percentageTable" class="table table-dark table-striped">
-                        <thead>
-                            <tr>
-                            <th scope="col">Activity Type</th>
-                            <th scope="col">Percentage (%)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="percentage_table_rows">
-                        </tbody>
-                    </table>
-                </div>
-                <div class="container">
-                    <div class="row my-3">
-                        <div class="col">
-                            <h4>Percentage of total activities per activity type</h4>
-                        </div>
+            <div class="row">
+                <div id="dataContainerLeft" class="col">
+                    <div id="dateFilter" class="container-fluid pt-1 p-1 mb-2 bg-dark text-white">
+                        <input type="text" id="datepicker">
+                        <input type="number" id="hour" name="hour" min="0" max="23" placeholder="18">
+                        <input type="number" id="minutes" name="minutes" min="0" max="59" placeholder="30">
+                        <input type="button" value="Filter" class="btn btn-outline-primary my-2 my-sm-0" id="filter">
                     </div>
-                    <div class="row my-2">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <canvas id="chLine" height="100"></canvas>
+
+                    <div class="w-100"></div>
+
+                    <div id="mapCon" class="h-90">
+                    </div>
+                </div>
+                
+                <div id="dataContainerRight" class="col">
+                    <div id="percentageTableCon" class="table-responsive-sm">
+                        <table id="percentageTable" class="table table-dark table-striped">
+                            <thead>
+                                <tr>
+                                <th scope="col">Activity Type</th>
+                                <th scope="col">Percentage (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="percentage_table_rows">
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="w-100"></div>
+                    
+                    <div id="percentageChartCon" class="container">
+                        <div class="row my-2">
+                            <div class="col">
+                                <h4>Percentage of total activities per activity type</h4>
+                            </div>
+                        </div>
+                        <div class="row my-2">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <canvas id="chLine"></canvas>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="w-100"></div>
+
+                    <div id="frequencyActivities" class="table-responsive-sm">
+                        <table id="frequencyActivitiesTable" class="table table-dark table-striped">
+                            <thead>
+                                <tr>
+                                <th scope="col">Activity Type</th>
+                                <th scope="col">Most common time of day</th>
+                                <th scope="col">Most common day of week</th>
+                                </tr>
+                            </thead>
+                            <tbody id="frequency_table_rows">
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            <div id="dataContainerRight" class="container">
             </div>
         </div>
 
@@ -108,49 +132,8 @@
         </script>
 
         <script>
-            function initActivityChart(activityTypes, percentages) {
-                // chart colors
-                var colors = ['#007bff','#77a36c','#333333','#c3e6cb','#dc3545','#6c757d'];
-
-                /* large line chart */
-                var chLine = document.getElementById("chLine");
-                var chartData = {
-                    labels: activityTypes,
-                    datasets: [{
-                        data: percentages,
-                        backgroundColor: colors[1]
-                    }]
-                };
-
-                if (chLine) {
-                    new Chart(chLine, {
-                        type: 'bar',
-                        data: chartData,
-                        options: {
-                            scales: {
-                                yAxes: [{
-                                    ticks: {
-                                        beginAtZero: true,
-                                        max: 100
-                                    }
-                                }]
-                            },
-                            legend: {
-                                display: false
-                            }
-                        }
-                    });
-                }
-            }
-        </script>
-
-        <script>
-            let datamap = createMap("dataContainerRight", false);
-
-            $('#filter').click(function() {
-                fillPercentageTableChart();
-                datamap = generateHeatmap(datamap);
-            });
+            let datamap = createMap("mapCon", false);
+            let activityChart;
 
             function activityTimeSpan() {
                 var date_from = document.getElementById("datepicker").value;
@@ -194,13 +177,53 @@
                 return [ts_from, ts_to];
             }
 
+            function initActivityChart(activityTypes, percentages) {
+                // chart colors
+                var colors = ['#007bff','#77a36c','#333333','#c3e6cb','#dc3545','#6c757d'];
+
+                /* large line chart */
+                var chLine = document.getElementById("chLine");
+                
+                var chartData = {
+                    labels: activityTypes,
+                    datasets: [{
+                        data: percentages,
+                        backgroundColor: colors[1]
+                    }]
+                };
+
+                if (activityChart) {
+                    activityChart.destroy();
+                }
+
+                var chart = new Chart(chLine, {
+                    type: 'bar',
+                    data: chartData,
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    max: 100
+                                }
+                            }]
+                        },
+                        legend: {
+                            display: false
+                        }
+                    }
+                });
+
+                activityChart = chart;
+            }
+
             function fillPercentageTableChart() {
                 var [timeStart, timeEnd] = activityTimeSpan();
                 var activities = [];
                 var percentages = [];
                 var results = []
 
-                $.ajax({
+                return $.ajax({
                     type: 'POST',
                     url: 'scripts/get_activities_in_time_range.php',
                     data: {timeStart, timeEnd},
@@ -246,16 +269,73 @@
                     success: function(data) {
                         userLocations = JSON.parse(data);
 
-                        map = loadDataFromDB(userLocations, map);
-                        return map;
+                        var lastLayer;
+                        var count = 0;
+
+                        map.eachLayer(function(layer){
+                            lastLayer = layer;
+                            count++;
+                        })
+
+                        if (count > 1) {
+                            map.removeLayer(lastLayer);
+                        }
+
+                        if (userLocations.length) {
+                            map = loadDataFromDB(userLocations, map);
+                        }
+
+                        datamap = map;
                     },
                     error: function() {
                         alert('An error occured.');
                     }
                 });
             }
+
+            initActivityChart([], []);
+
+            $('#filter').click(function() {
+                fillPercentageTableChart();
+                generateHeatmap(datamap);
+            });
+
+            function fillFrequencyTable() {
+                var activities = [];
+
+                return $.ajax({
+                    type: 'POST',
+                    url: 'scripts/get_activities_frequency.php',
+                    data: {},
+                    success: function(data) {
+                        results = JSON.parse(data);
+
+                        var table = document.getElementById("frequency_table_rows");
+                        // empty table before filling with the results from the new query
+                        table.innerHTML = "";
+
+                        for (var i in results) {
+                            var activity = results[i].type;
+                            var time = results[i].time;
+                            var day = results[i].day;
+
+                            // fill activities table
+                            var row = table.insertRow(i);
+                            var cell1 = row.insertCell(0);
+                            var cell2 = row.insertCell(1);
+                            var cell3 = row.insertCell(2);
+                            cell1.innerHTML = activity.toString();
+                            cell2.innerHTML = time.toString();
+                            cell3.innerHTML = day.toString();
+                        }
+                    },
+                    error: function() {
+                        alert('An error occured.');
+                    }
+                });
+            }
+
+            fillFrequencyTable();
         </script>
-
-
     </body>
 </html>

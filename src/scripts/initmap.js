@@ -72,6 +72,19 @@ function loadData(event, map) {
         data: []
     };
 
+    // clear previous heatmap
+    var lastLayer;
+    var count = 0;
+
+    map.eachLayer(function(layer){
+        lastLayer = layer;
+        count++;
+    })
+
+    if (count > 1) {
+        map.removeLayer(lastLayer);
+    }
+
     reader.onload = function(event) {
         var obj = JSON.parse(event.target.result);
         

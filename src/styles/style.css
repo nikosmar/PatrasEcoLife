@@ -44,30 +44,23 @@ button[name="register"] {
     height: 90.5vh;
 }
 
-#dateFilter {
-    display: flex;
-    position: relative;
-}
-
-#dateFilter input {
-    width: 100px;
-}
-
 #dataContainer {
     background-color: #77a36c;
-    height: 91vh;
+    
 }
 
-@media only screen and (min-width: 800px) {
+/*#dateFilter {
+    z-index:2;
+}*/
+
+#mapCon {
+    height: 900px;
+    z-index:1;
+}
+
+
+/*@media only screen and (min-width: 800px) {
     #dataContainer {
         display: flex;
     }
-
-    #dataContainerLeft {
-        width: 45%;
-    }
-
-    #dataContainerRight{
-        width: 55%;
-    }
-}
+}*/
