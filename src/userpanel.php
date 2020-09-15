@@ -48,30 +48,54 @@
                 </form>
             </div>
         </nav>
-        <span class="d-block p-3 bg-primary text-dark">
-            <div class="shadow p-3 mb-5 bg-success rounded">
-                <div>
-                    <h2>Welcome, <?php echo $_SESSION ['username']; ?> </h2>
-                    <p class="text-body">This is some text in a div element.</p>
+        <div id="userData" class="container-fluid">
+            <div class="shadow p-3 mb-5 rounded" style="background-color: #04623e">
+                <h2>Welcome, <?php echo $_SESSION ['username']; ?> </h2>
+                <p class="text-body">This is some text in a div element.</p>
+            </div> 
+            <div class="row">
+                <div class="col">
+                    <div class="col-xs-6 col-lg" style="background-color: #264d00">
+                    <canvas id="myChart"></canvas> 
+                    </div>   
                 </div>
-             </div>
-        </span>
-
-        <div id="userData" class="container">
-          <div class="row">
-            <div class="w-25 p-3">
-              <h4> Eco Score </h4>
-              <p> Score: <span id="userScore"></span></p>
-             <canvas id="myChart" width="400" height="400">
+                <div class="col-lg-3 col-lg-offset-3">
+                    <div class="col-xs-6 col-lg" style="background-color: #264d00">
+                        <table class="table table-striped table-dark">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Score of the Month:</th>
+                                    <td id="userScore"></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Your Registers:</th>
+                                    <td id="registers"> Dates</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Last Upload:</th>
+                                    <td id="lastUpload"> Date </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                <div class = "w-100">
+                    <div class="col-xs-6 col-lg" style="background-color: #264d00">
+                        <table class="table table-striped table-dark">
+                            <tbody>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Eco Score</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                </div>
             </div>
-            <div class="w-25 p-3">
-              One of three columns
-            </div>
-            <div class="w-25 p-3">
-              One of three columns
-            </div>
-          </div>
         </div>
+
+    </body>
 
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -79,7 +103,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
         <script src="scripts/main.js"></script>
         <script src="scripts/paneldata.js"></script>
-        <script>
-            showUserScore();
-        </script>
+        <script src="scripts/registersuploaddates.js"></script>
+        <script> showUserScore(); PeriodOfRegisters(); UploadDate();</script>
+
 </html>

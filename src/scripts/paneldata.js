@@ -9,23 +9,25 @@ function UpdateTheGraph(MonthlyEcoScores){
             datasets: [{
                 label: 'Monthly Score',
                 data: Score,
-                // backgroundColor: [
-                //     'rgba(255, 99, 132, 0.2)',
-                //     'rgba(54, 162, 235, 0.2)',
-                //     'rgba(255, 206, 86, 0.2)',
-                //     'rgba(75, 192, 192, 0.2)',
-                //     'rgba(153, 102, 255, 0.2)',
-                //     'rgba(255, 159, 64, 0.2)'
-                // ],
+                backgroundColor: 'rgba(87, 172, 83, 0.2)',
                 borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
+                    'rgba(0, 0, 0, 0.1)',
+                    'rgba(0, 0, 0, 0.1)',
+                    'rgba(0, 0, 0, 0.1)',
+                    'rgba(0, 0, 0, 0.1)',
+                    'rgba(0, 0, 0, 0.1)',
+                    'rgba(0, 0, 0, 0.1)',
+                    'rgba(0, 0, 0, 0.1)',
+                    'rgba(0, 0, 0, 0.1)',
+                    'rgba(0, 0, 0, 0.1)',
+                    'rgba(0, 0, 0, 0.1)',
+                    'rgba(0, 0, 0, 0.1)',
+                    'rgba(54, 162, 235, 1)'
                 ],
-                borderWidth: 1
+                borderWidth: 3,
+                pointHoverBorderWidth: 10,
+                // pointHoverBackgroundColor: 'rgba(255, 255, 86, 0.2)',
+                // pointHoverBorderWidth: 'rgba(255, 255, 255, 0.2)'
             }]
         },
         options: {
@@ -40,20 +42,7 @@ function UpdateTheGraph(MonthlyEcoScores){
     });
 }
 
-function showUserScore(str) {
-    /*if (str == "") {
-        document.getElementById("userScore").innerHTML = "";
-        return;
-    }
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("userScore").innerHTML = this.responseText;
-        }
-    };
-    xhttp.open("GET", "scripts/user_panel_data.php", true);
-    xhttp.send(null);*/
-
+function showUserScore(){
     $(document).ready(function() {
         $.ajax({ 
             type: 'GET',
@@ -115,12 +104,16 @@ function showUserScore(str) {
                             if(data[i]["YEAR(ts)"] == currentYear && data[i]["MONTH(ts)"] == currentMonth){
                                     currentEcoScore = eco_counter/actity_counter*100;
                                     currentEcoScore = parseFloat(currentEcoScore).toFixed(2);
-                                    // console.log(currentEcoScore);
                             }
                             break;
                         }
-                    }   
-                    FormTheData(data2,data2.length);
+                    }
+                    if(currentEcoScore != 0){   
+                        document.getElementById('userScore').innerHTML  = currentEcoScore +'%';
+                    }else{
+                        document.getElementById('userScore').innerHTML  = 'You do not have eco-score for the current month.';
+                    }
+                    FormTheData(data2);
                 } else{
                     console.log('You dont have any data');
                 };
@@ -130,9 +123,9 @@ function showUserScore(str) {
             }
     	});
     });
-}
+};
 
-function FormTheData(data,length){
+function FormTheData(data){
     var months = ['January', 'February ', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     var today = new Date();
     var currentMonth = String(today.getMonth() + 1); //January is 0!
@@ -174,6 +167,5 @@ function FormTheData(data,length){
         }
         UpdateTheGraph(data);
     }
-
- console.log(MonthlyEcoScores);
 }
+

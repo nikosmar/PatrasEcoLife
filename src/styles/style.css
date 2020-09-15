@@ -47,3 +47,28 @@ button[name="register"] {
 #uploadBar {
     width: fit-content;
 }
+
+#myChart{
+    background-color: white; 
+    width: 100%;
+    height: auto;
+}
+
+#userData{
+    position: absolute;
+    width: 100%;
+    height: auto;
+}
+
+.col-xs-6{
+    position: relative;
+    border: 2px solid #333333;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.shadow{
+    position: relative;
+    border: 2px solid #333333;
+    border-radius: 10px;
+}
