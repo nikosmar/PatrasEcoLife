@@ -79,6 +79,10 @@ function update_activities_table($location, $name) {
     $json_data = json_decode($json_string, true);
 
     $locations = $json_data['locations'];
+
+    $total_moving_activities = 0;
+    $eco_moving_activities = 0;
+    $month_of_activity = "";
     
     for ($i = 0; $i < count($locations); $i++) {
         $lat = $locations[$i]['latitudeE7'];
@@ -87,6 +91,7 @@ function update_activities_table($location, $name) {
         $activities = $locations[$i]['activity'];
 
         for ($j = 0; $j < count($activities); $j++) {
+            // update activities table
             $type = $activities[$j]['activity'][0]['type'];
         
             $ts = $activities[$j]['timestampMs'];
@@ -108,7 +113,48 @@ function update_activities_table($location, $name) {
                 echo "Database error.";
                 exit(1);
             }
+
+            // update eco_score table
+            $month_of_activity = date("m", $ts);
+            $year_of_activity = date("Y", $ts);
+            if ($type != "STILL" && $type != "TILTING" && $month_of_activity == date('m') && $year_of_activity == date('Y')) {
+                $total_moving_activities++;
+                if (strstr($type, "VEHICLE") === false) {
+                    $eco_moving_activities++;
+                }
+            }
         }
     }
+
+    $sqlSel = mysqli_query($link, "SELECT score, total_moving_activities AS tma, latest_update FROM eco_score WHERE username = '$username'");
+
+    $data = array();
+
+    $data = mysqli_fetch_array($sqlSel, MYSQLI_ASSOC);
+
+    if ($total_moving_activities > 0) {
+        $sqlUpd = "";
+        $cur_month = date('m');
+
+        if ($data["latest_update"] == $cur_month) {
+            $new_total = $data["tma"] + $total_moving_activities;
+            $new_score = ($data["score"] * $data["tma"] + $eco_moving_activities) / $new_total;
+    
+            $sqlUpd = "UPDATE eco_score SET score = '$new_score', total_moving_activities = '$new_total' WHERE username = '$username'";
+        }
+        else {
+            $new_score = $eco_moving_activities / $total_moving_activities;
+            
+            $sqlUpd = "UPDATE eco_score SET score = '$new_score', total_moving_activities = '$total_moving_activities', latest_update='$cur_month' WHERE username = '$username'";
+        }
+
+        if ($link->query($sqlUpd) === TRUE) {
+
+        } else {
+
+        }
+    }
+    
+    mysqli_free_result($sqlSel);
 }
 ?>

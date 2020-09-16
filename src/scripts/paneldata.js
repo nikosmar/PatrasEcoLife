@@ -34,7 +34,8 @@ function UpdateTheGraph(MonthlyEcoScores){
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        max: 100
                     }
                 }]
             }
