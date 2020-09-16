@@ -4,7 +4,8 @@ CREATE TABLE users (
     password CHAR(32) NOT NULL,
     email varchar(128) NOT NULL,
     firstname VARCHAR(128) NOT NULL,
-    lastname VARCHAR(128) NOT NULL
+    lastname VARCHAR(128) NOT NULL,
+    admin BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE upload (

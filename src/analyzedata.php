@@ -47,9 +47,13 @@
             <div class="row">
                 <div id="dataContainerLeft" class="col">
                     <div id="dateFilter" class="container-fluid pt-1 p-1 mb-2 bg-dark text-white">
-                        <input type="text" id="datepicker">
-                        <input type="number" id="hour" name="hour" min="0" max="23" placeholder="18">
-                        <input type="number" id="minutes" name="minutes" min="0" max="59" placeholder="30">
+                        From <input type="text" id="datepickerFrom">
+                        <input type="number" id="hourFrom" name="hourFrom" min="0" max="23" placeholder="18">
+                        <input type="number" id="minutesFrom" name="minutesFrom" min="0" max="59" placeholder="30">
+                        <br>
+                        To <input type="text" id="datepickerTo">
+                        <input type="number" id="hourTo" name="hourTo" min="0" max="23" placeholder="18">
+                        <input type="number" id="minutesTo" name="minutesTo" min="0" max="59" placeholder="30">
                         <input type="button" value="Filter" class="btn btn-outline-primary my-2 my-sm-0" id="filter">
                     </div>
 
@@ -121,7 +125,16 @@
         <script src="scripts/initmap.js"></script>
 
         <script>
-            $("#datepicker").datepicker({
+            $("#datepickerFrom").datepicker({
+                todayBtn: true,
+                todayHighlight: true,
+                weekStart: 1,
+                format: "yyyy-mm-dd",
+                startDate: "2005-01-01",
+                endDate: "0"
+            });
+
+            $("#datepickerTo").datepicker({
                 todayBtn: true,
                 todayHighlight: true,
                 weekStart: 1,
@@ -136,29 +149,28 @@
             let activityChart;
 
             function activityTimeSpan() {
-                var date_from = document.getElementById("datepicker").value;
-                var hour_from = document.getElementById("hour").value;
-                var mins_from = document.getElementById("minutes").value;
+                var date_from = document.getElementById("datepickerFrom").value;
+                var hour_from = document.getElementById("hourFrom").value;
+                var mins_from = document.getElementById("minutesFrom").value;
 
-                var date_to;
-                var hour_to;
-                var mins_to;
+                var date_to = document.getElementById("datepickerTo").value;
+                var hour_to = document.getElementById("hourTo").value;
+                var mins_to = document.getElementById("minutesTo").value;
 
                 if (hour_from == "" || mins_from == "") {
                     hour_from = "00";
                     mins_from = "00:00";
+                }
+                if (hour_to == "" || mins_to == "") {
                     hour_to = "23";
                     mins_to = "59:59";
-                }
-                else {
-                    mins_to = mins_from + ":59";
-                    mins_from += ":00";
-                    hour_to = hour_from;
                 }
 
                 if (date_from == "") {
                     date_from = "2005-01-01";
-                    
+                }
+
+                if (date_to == "") {
                     var today = new Date();
                     var dd = String(today.getDate()).padStart(2, '0');
                     var mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -167,12 +179,22 @@
                     today = yyyy + '-' + mm + '-' + dd;
                     date_to = today;
                 }
-                else {
-                    date_to = date_from;
-                }
 
                 var ts_from = date_from + " " + hour_from + ":" + mins_from;
                 var ts_to = date_to + " " + hour_to + ":" + mins_to;
+
+                document.getElementById("datepickerFrom").value = date_from;
+                document.getElementById("hourFrom").value = hour_from;
+                if (mins_from.length > 2) {
+                    mins_from = "00";
+                }
+                document.getElementById("minutesFrom").value = mins_from;
+                document.getElementById("datepickerTo").value = date_to;
+                document.getElementById("hourTo").value = hour_to;
+                if (mins_to.length > 2) {
+                    mins_to = "59";
+                }
+                document.getElementById("minutesTo").value = mins_to;
 
                 return [ts_from, ts_to];
             }

@@ -13,8 +13,14 @@
             $_SESSION['loggedin'] = true;
             $_SESSION['userid'] = $row["userid"];
             $_SESSION['username'] = $username;
+            $_SESSION['user_type'] = $row["admin"];
 
-            header('Location: ../userpanel.php');
+            if ($_SESSION['user_type'] == 1) {
+                header('Location: ../adminpanel.php');
+            }
+            else {
+                header('Location: ../userpanel.php');
+            }
         }
     }
     else {
