@@ -24,12 +24,13 @@
 			$data[] = $row;
 		}
 	}
-	else {
-	    printf("First you must upload your data.\n");
+
+	if (empty($data)){
+  		echo json_encode($data);
+	}else{
+		echo json_encode($data);
 	}
-
-	echo json_encode($data);
-
+	
 	mysqli_free_result($sql);
     mysqli_close($conn);
  ?> 

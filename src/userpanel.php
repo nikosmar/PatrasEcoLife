@@ -49,18 +49,19 @@
             </div>
         </nav>
         <div id="userData" class="container-fluid">
-            <div class="shadow p-3 mb-5 rounded" style="background-color: #04623e">
-                <h2>Welcome, <?php echo $_SESSION ['username']; ?> </h2>
-                <p class="text-body">This is some text in a div element.</p>
+            <div class="shadow p-3 mb-5 rounded" style="background-color: #505a62">
+                <h2 style="color :#00AA00 ">Welcome, <?php echo $_SESSION ['username']; ?> </h2>
+                <p class="text-body">PatrasEcoLife is a website with environment-conscious and we are here to help you to raise environmental conscience.
+                <br>Let's see your metrics and your reverence to the environment. </p>
             </div> 
             <div class="row">
                 <div class="col">
-                    <div class="col-xs-6 col-lg" style="background-color: #264d00">
+                    <div class="col-xs-6 col-xs" style="background-color: #343a40">
                     <canvas id="myChart"></canvas> 
                     </div>   
                 </div>
                 <div class="col-lg-3 col-lg-offset-3">
-                    <div class="col-xs-6 col-lg" style="background-color: #264d00">
+                    <div class="col-xs-6 col-xs" style="background-color: #343a40">
                         <table class="table table-striped table-dark">
                             <tbody>
                                 <tr>
@@ -69,24 +70,27 @@
                                 </tr>
                                 <tr>
                                     <th scope="row">Your Registers:</th>
-                                    <td id="registers"> Dates</td>
+                                    <td id="registers"></td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Last Upload:</th>
-                                    <td id="lastUpload"> Date </td>
+                                    <td id="lastUpload"></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 <div class = "w-100">
-                    <div class="col-xs-6 col-lg" style="background-color: #264d00">
-                        <table class="table table-striped table-dark">
-                            <tbody>
+                    <div class="col-xs-6 col-xs" style="background-color: #343a40">
+                        <table  class="table table-striped table-dark">
+                            <thead>
                                 <tr>
-                                    <th scope="col">#</th>
+                                    <th scope="col">Rank</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Eco Score</th>
                                 </tr>
+                            </thead>
+                            <tbody  id="leaderBoard">
+                                
                             </tbody>
                         </table>
                     </div>
@@ -104,6 +108,7 @@
         <script src="scripts/main.js"></script>
         <script src="scripts/paneldata.js"></script>
         <script src="scripts/registersuploaddates.js"></script>
-        <script> showUserScore(); PeriodOfRegisters(); UploadDate();</script>
+        <script src="scripts/leaderboard.js"></script>
+        <script> showUserScore(); PeriodOfRegisters(); UploadDate(); UpdateLeader();</script>
 
 </html>

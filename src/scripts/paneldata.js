@@ -50,7 +50,6 @@ function showUserScore(){
     	    url: 'scripts/user_panel_data.php',
             dataType : 'json',
     	    success: function(data){
-
                 var data2 = {
                     Month : [],
                     EcoScore : []
@@ -60,23 +59,23 @@ function showUserScore(){
                 var currentMonth = String(today.getMonth() + 1); //January is 0!
                 var currentYear = today.getFullYear();
                
-                var checkMonth = data[0]["MONTH(ts)"];
                 var actity_counter = 0;
                 var eco_counter = 0;
                 var EcoScore = 0;
-                var currentEcoScore = 0 ;
+                var currentEcoScore = 0;
 
                 if(data && data.length){
+                    var checkMonth = data[0]["MONTH(ts)"];
                     for (var i = 0; i < data.length; i++){
                         if(data[i]["YEAR(ts)"] == currentYear && data[i]["MONTH(ts)"] == currentMonth){
                             actity_counter +=  parseInt(data[i]["cnt"]);
-                            if(data[i]["activity_type"].includes('VEHICLE') != true){
+                            if((data[i]["activity_type"].includes('VEHICLE') != true) && (data[i]["activity_type"].includes('CAR') != true)){
                                 eco_counter += parseInt(data[i]["cnt"]);
                             }
                         }else {
                             actity_counter +=  parseInt(data[i]["cnt"]);
 
-                            if(data[i]["activity_type"].includes('VEHICLE') != true){
+                            if((data[i]["activity_type"].includes('VEHICLE') != true) && (data[i]["activity_type"].includes('CAR') != true)){
                                 eco_counter += parseInt(data[i]["cnt"]);
                             }
                         }
@@ -90,7 +89,6 @@ function showUserScore(){
                                 if(data[i]["YEAR(ts)"] == currentYear && data[i]["MONTH(ts)"] == currentMonth){
                                     currentEcoScore = eco_counter/actity_counter*100;
                                     currentEcoScore = parseFloat(currentEcoScore).toFixed(2);
-                                   
                                 }
                                 // reset the counters
                                 actity_counter = 0;
@@ -105,6 +103,7 @@ function showUserScore(){
                             if(data[i]["YEAR(ts)"] == currentYear && data[i]["MONTH(ts)"] == currentMonth){
                                     currentEcoScore = eco_counter/actity_counter*100;
                                     currentEcoScore = parseFloat(currentEcoScore).toFixed(2);
+
                             }
                             break;
                         }
@@ -115,8 +114,9 @@ function showUserScore(){
                         document.getElementById('userScore').innerHTML  = 'You do not have eco-score for the current month.';
                     }
                     FormTheData(data2);
-                } else{
-                    console.log('You dont have any data');
+                }else{
+                    document.getElementById('userScore').innerHTML  = 'You do not have upload any data yet or for the last 12 months.';
+                    FormTheData(data);
                 };
     	    },
     	    error: function(xhr, status, error) {
@@ -141,32 +141,39 @@ function FormTheData(data){
         MonthlyEcoScores.EcoScore.push(0);
     }
 
-    if(data.Month.length != 12){
-        for (var i = 0; i < data.Month.length; i++){
-            if(parseInt(currentMonth) < data.Month[i]){
-                var index = data.Month[i]-currentMonth-1;
-                MonthlyEcoScores.Month[index] = data.Month[i];
-                MonthlyEcoScores.EcoScore[index] = data.EcoScore[i];
+    if(data.length != 0){
+        if(data.Month.length != 12){
+            for (var i = 0; i < data.Month.length; i++){
+                if(parseInt(currentMonth) < data.Month[i]){
+                    var index = data.Month[i]-currentMonth-1;
+                    MonthlyEcoScores.Month[index] = data.Month[i];
+                    MonthlyEcoScores.EcoScore[index] = data.EcoScore[i];
 
-            }else{
-                var index = data.Month[i]+11-currentMonth;
-                MonthlyEcoScores.Month[index] = data.Month[i];
-                MonthlyEcoScores.EcoScore[index] = data.EcoScore[i];
+                }else{
+                    var index = data.Month[i]+11-currentMonth;
+                    MonthlyEcoScores.Month[index] = data.Month[i];
+                    MonthlyEcoScores.EcoScore[index] = data.EcoScore[i];
+                }
             }
-        }
-        for(var i = 0; i < 12; i++ ){
-            if(MonthlyEcoScores.Month[i] == 0){
-                var month = ((parseInt(currentMonth)+i+12)%12)+1;
-                MonthlyEcoScores.Month[i] = month;
+            for(var i = 0; i < 12; i++ ){
+                if(MonthlyEcoScores.Month[i] == 0){
+                    var month = ((parseInt(currentMonth)+i+12)%12)+1;
+                    MonthlyEcoScores.Month[i] = month;
+                }
+                MonthlyEcoScores.Month[i] = months[MonthlyEcoScores.Month[i]-1];
             }
-            MonthlyEcoScores.Month[i] = months[MonthlyEcoScores.Month[i]-1];
+            UpdateTheGraph(MonthlyEcoScores);
+        }else{
+            for(var i = 0; i < 12; i++){
+                data.Month[i] = months[data.Month[i]-1];
+            }
+            UpdateTheGraph(data);
         }
-        UpdateTheGraph(MonthlyEcoScores);
     }else{
-        for(var i = 0; i < 12; i++){
-            data.Month[i] = months[data.Month[i]-1];
-        }
-        UpdateTheGraph(data);
+        MonthlyEcoScores = {
+                    Month : ['January', 'February ', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    EcoScore : [0,0,0,0,0,0,0,0,0,0,0,0,]
+                };
+        UpdateTheGraph(MonthlyEcoScores);
     }
 }
-

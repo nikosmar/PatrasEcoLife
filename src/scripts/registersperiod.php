@@ -38,6 +38,7 @@
 
 	echo json_encode($data);
 
-	mysqli_free_result($sql);
+	mysqli_free_result($lastRegister);
+	mysqli_free_result($firstRegister);
     mysqli_close($conn);
  ?> 
