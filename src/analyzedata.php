@@ -243,7 +243,7 @@
                 var [timeStart, timeEnd] = activityTimeSpan();
                 var activities = [];
                 var percentages = [];
-                var results = []
+                var results = [];
 
                 return $.ajax({
                     type: 'POST',

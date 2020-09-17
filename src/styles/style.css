@@ -46,21 +46,36 @@ button[name="register"] {
 
 #dataContainer {
     background-color: #343a40;
-    
 }
-
-/*#dateFilter {
-    z-index:2;
-}*/
 
 #mapCon {
     height: 900px;
     z-index:1;
 }
 
+#adminDataContainer {
+    height: 95.1vh;
+}
 
-/*@media only screen and (min-width: 800px) {
-    #dataContainer {
-        display: flex;
-    }
-}*/
+#sidebarCol {
+    background-color: #343a40;
+}
+
+#sidebarCol {
+    color: #f8f9fa;
+}
+
+#mapCol {
+    background-color: #343a40;
+}
+
+/* Firefox */
+#adminSidebar input[type=number] {
+    -moz-appearance:textfield;
+}
+
+/* Chrome, Safari, Edge, Opera */
+#adminSidebar input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
