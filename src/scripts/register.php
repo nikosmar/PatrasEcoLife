@@ -9,7 +9,7 @@
 
     $userid = openssl_encrypt($email, "aes-128-cbc", $hashed_password);
     
-    $sql = "INSERT INTO users VALUES (
+    $sql = "INSERT INTO users (userid, username, password, email, firstname, lastname) VALUES (
         '$userid',
         '$username',
         '$hashed_password',
@@ -18,10 +18,16 @@
         '$lastname'
     )";
 
+    $eco_query = "INSERT INTO eco_score (username, score, total_moving_activities, latest_update) VALUES ('$username', 0, 0, -1)";
+
     if ($link->query($sql) === TRUE) {
-        header('Location: ..');
+        if ($link->query($eco_query) === TRUE) {
+            header('Location: ..');
+        } else {
+            echo "An error occured on user creation.<br>";
+        }
     } else {
-        echo "Error: " . $sql . "<br>" . $link->error;
+        echo "An error occured on user creation.<br>";
     }
 
     mysqli_close($link);
