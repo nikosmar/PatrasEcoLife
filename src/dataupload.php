@@ -63,9 +63,17 @@
         
         <div id="uploadBar" class="p-1 mb-2 bg-dark text-white">
             <form id="uploadForm" enctype="multipart/form-data">
-                Select JSON to upload:
-                <input type="file" name="fileToUpload" id="fileToUpload" onchange="loadData(event)">
-                <input type="button" id="upload_btn" value="Upload JSON" class="btn btn-outline-primary my-2 my-sm-0" name="submit">
+                 <div class="form-row align-items-center">
+                    <div class="col-auto mr-sm-3">
+                        <input type="file" name="fileToUpload" id="fileToUpload" class="custom-file-input" style="cursor: pointer;" onchange="loadData(event)">
+                        <label class="custom-file-label" for="fileToUpload">Choose file</label>
+                    </div>
+                    <div class="col_auto">
+                        <input type="button" id="upload_btn" value="Upload JSON" class="btn btn-outline-primary my-2 my-sm-0" name="submit">
+                    </div>
+                </div>
+            </div>
+                
             </form>
         </div>
         

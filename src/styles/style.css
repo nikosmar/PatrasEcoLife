@@ -41,7 +41,7 @@ button[name="register"] {
 }
 
 #mapid {
-    height: 800px;
+    height: 90.5vh;
 }
 
 #uploadBar {
@@ -71,4 +71,13 @@ button[name="register"] {
     position: relative;
     border: 2px solid #333333;
     border-radius: 10px;
+}
+
+.fileToUpload{
+    position: relative;
+    margin-right: 10px
+}
+
+#uploadBar{
+    position: absolute;
 }
