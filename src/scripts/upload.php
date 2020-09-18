@@ -81,24 +81,52 @@ function update_activities_table($location, $name) {
     $locations = $json_data['locations'];
     
     for ($i = 0; $i < count($locations); $i++) {
+        $loc_ts = $locations[$i]['timestampMs'] / 1000;
+        $loc_date = date("Y-m-d H:i:s", $loc_ts);
+
         $lat = $locations[$i]['latitudeE7'];
         $lng = $locations[$i]['longitudeE7'];
+        $accuracy = $locations[$i]['accuracy'];
+
+        $heading = "NULL";
+        $verticalAccuracy = "NULL";
+        $velocity = "NULL";
+        $altitude = "NULL";
+
+        if (array_key_exists('heading', $locations[$i])) {
+            $heading = $locations[$i]["heading"];
+        }
+        if (array_key_exists('verticalAccuracy', $locations[$i])) {
+            $verticalAccuracy = $locations[$i]["verticalAccuracy"];
+        }
+        if (array_key_exists('velocity', $locations[$i])) {
+            $velocity = $locations[$i]["velocity"];
+        }
+        if (array_key_exists('altitude', $locations[$i])) {
+            $altitude = $locations[$i]["altitude"];
+        }
         
         $activities = $locations[$i]['activity'];
 
         for ($j = 0; $j < count($activities); $j++) {
             $type = $activities[$j]['activity'][0]['type'];
-        
-            $ts = $activities[$j]['timestampMs'];
-            $ts = $ts / 1000;
-            $date = date("Y-m-d H:i:s", $ts);
+            $confidence = $activities[$j]['activity'][0]['confidence'];
+            $ts = $activities[$j]['timestampMs'] / 1000;
+            $act_date = date("Y-m-d H:i:s", $ts);
 
-            $sql = "INSERT INTO activities (username, ts, activity_type, latitude, longitude) VALUES (
+            $sql = "INSERT INTO activities (username, loc_ts, latitude, longitude, accuracy, heading, verticalAccuracy, velocity, altitude, activity_type, ts, confidence) VALUES (
                 '$username',
-                '$date',
-                '$type',
+                '$loc_date',
                 $lat,
-                $lng
+                $lng,
+                $accuracy,
+                $heading,
+                $verticalAccuracy,
+                $velocity,
+                $altitude,
+                '$type',
+                '$act_date',
+                $confidence
             )";
 
             if ($link->query($sql)) {

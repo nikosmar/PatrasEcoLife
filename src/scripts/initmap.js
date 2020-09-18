@@ -40,7 +40,21 @@ function updateJObject(location, lat, lng) {
         "activity" : []
     };
 
+    if (location.heading !== undefined) {
+        jsonObject["heading"] = location.heading;
+    }
+    if (location.verticalAccuracy !== undefined) {
+        jsonObject["verticalAccuracy"] = location.verticalAccuracy;
+    }
+    if (location.velocity !== undefined) {
+        jsonObject["velocity"] = location.velocity;
+    }
+    if (location.altitude !== undefined) {
+        jsonObject["altitude"] = location.altitude;
+    }
+
     var i;
+    var availableTypes = ["IN_VEHICLE", "ON_BICYCLE", "ON_FOOT", "RUNNING", "STILL", "WALKING"];
     if (location.activity !== undefined) {
         for (i = 0; i < location.activity.length; i++) {
             var activityObject = {
@@ -51,8 +65,10 @@ function updateJObject(location, lat, lng) {
             activityObject.activity.push(location.activity[i].activity[0]);
             jsonObject.activity.push(activityObject);
     
-            if (jsonObject.activity[i].activity[0].type == "UNKNOWN") {
-                jsonObject.activity[i].activity[0].type = "STILL";
+            // choose a random activity type if activity type is not in the allowed-list
+            if (!availableTypes.includes(jsonObject.activity[i].activity[0].type)) {
+                var k = Math.floor(Math.random() * 6);
+                jsonObject.activity[i].activity[0].type = availableTypes[k];
             }
         }
     }
