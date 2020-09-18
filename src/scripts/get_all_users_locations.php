@@ -32,11 +32,6 @@
     (activity_type = '' " .
     $activities
     . ") GROUP BY latitude, longitude ORDER BY COUNT(*) DESC";
-    
-    /*$logfile = "logs/" . "ddd" . ".log";
-    //$data = $month_to . ' ' . $year_to;
-    $var_str = var_export($queryStr, true);
-    file_put_contents($logfile, $var_str);*/
 
     $result = mysqli_query($link, $queryStr);
 
