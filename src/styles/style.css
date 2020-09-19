@@ -40,10 +40,46 @@ button[name="register"] {
     float: right;
 }
 
-#mapid {
-    height: 800px;
+#mapdiv {
+    height: 90.5vh;
 }
 
-#uploadBar {
-    width: fit-content;
+#dataContainer {
+    background-color: #343a40;
+}
+
+#mapCon {
+    height: 900px;
+    z-index:1;
+}
+
+#adminDataContainer {
+    height: 95.1vh;
+}
+
+#sidebarCol {
+    background-color: #343a40;
+}
+
+#sidebarCol {
+    color: #f8f9fa;
+}
+
+#mapCol {
+    background-color: #343a40;
+}
+
+/* Firefox */
+#adminSidebar input[type=number] {
+    -moz-appearance:textfield;
+}
+
+/* Chrome, Safari, Edge, Opera */
+#adminSidebar input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#GraphLabel{
+    color: #77a36c;
 }

@@ -10,13 +10,17 @@
 
     if (mysqli_num_rows($result) == 1) {
         while($row = mysqli_fetch_assoc($result)) {
-            // initiate logged-in user session
-            session_start();
             $_SESSION['loggedin'] = true;
             $_SESSION['userid'] = $row["userid"];
             $_SESSION['username'] = $username;
+            $_SESSION['user_type'] = $row["admin"];
 
-            header('Location: ../userpanel.php');
+            if ($_SESSION['user_type'] == 1) {
+                header('Location: ../adminpanel.php');
+            }
+            else {
+                header('Location: ../userpanel.php');
+            }
         }
     }
     else {

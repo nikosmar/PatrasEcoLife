@@ -1,26 +1,32 @@
-let mymap= L.map('mapid');
+function createMap(elementId, enableControls) {
+    let mymap = L.map(elementId);
 
-let osmUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
-let osmAttrib = 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
-let osm = new L.TileLayer(osmUrl, {attribution: osmAttrib});
+    let osmUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+    let osmAttrib = 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
+    let osm = new L.TileLayer(osmUrl, {attribution: osmAttrib});
 
-mymap.pm.addControls({
-    position: 'topleft',
-    drawPolyline: false,
-    drawCircle: false,
-    drawCircleMarker: false,
-});
+    if (enableControls) {
+        mymap.pm.addControls({
+            position: 'topleft',
+            drawPolyline: false,
+            drawCircle: false,
+            drawCircleMarker: false,
+        });
+    }
 
-mymap.addLayer(osm);
+    mymap.addLayer(osm);
 
-let southWest = L.latLng(38.02, 21,3);
-let northEast = L.latLng(38.32, 22.12);
-let bounds = L.latLngBounds(southWest, northEast);
+    let southWest = L.latLng(38.02, 21,3);
+    let northEast = L.latLng(38.32, 22.12);
+    let bounds = L.latLngBounds(southWest, northEast);
 
-mymap.setMaxBounds(bounds);
-mymap.setMinZoom(11);
+    mymap.setMaxBounds(bounds);
+    mymap.setMinZoom(11);
 
-mymap.setView([38.230462, 21.753150], 14);
+    mymap.setView([38.230462, 21.753150], 14);
+
+    return mymap;
+}
 
 var locationHistory = {"locations" : []};
 var selectedFile;
@@ -54,7 +60,7 @@ function updateJObject(location, lat, lng) {
     locationHistory.locations.push(jsonObject);
 }
 
-function loadData(event) {
+function loadData(event, map) {
     let patrasCenter = L.latLng(38.230462, 21.753150);
 
     selectedFile = event.target.files[0];
@@ -66,6 +72,19 @@ function loadData(event) {
         data: []
     };
 
+    // clear previous heatmap
+    var lastLayer;
+    var count = 0;
+
+    map.eachLayer(function(layer){
+        lastLayer = layer;
+        count++;
+    })
+
+    if (count > 1) {
+        map.removeLayer(lastLayer);
+    }
+
     reader.onload = function(event) {
         var obj = JSON.parse(event.target.result);
         
@@ -73,7 +92,10 @@ function loadData(event) {
             let curLat = obj.locations[i].latitudeE7 / 10000000;
             let curLng = obj.locations[i].longitudeE7 / 10000000;
 
-            let currentPoint = L.latLng(Number.parseFloat(curLat).toFixed(5), Number.parseFloat(curLng).toFixed(5));
+            curLat = curLat.toFixed(5);
+            curLng = curLng.toFixed(5);
+
+            let currentPoint = L.latLng(curLat, curLng);
 
             if (currentPoint.distanceTo(patrasCenter) <= 10000) {
                 updateJObject(obj.locations[i], curLat, curLng);
@@ -109,18 +131,52 @@ function loadData(event) {
         };
         
         let heatmapLayer = new HeatmapOverlay(cfg);
-        mymap.addLayer(heatmapLayer);
+        map.addLayer(heatmapLayer);
         heatmapLayer.setData(locations);
     };
 
     reader.readAsText(selectedFile);
+
+    return map;
 }
 
-$("#upload_btn").on('click', function(e) {
-    prunSensitiveLocations();
-});
+function loadDataFromDB(locationTable, map) {
+    let locations = {
+        min: 0,
+        max: locationTable[0].cnt,
+        data: []
+    };
 
-function prunSensitiveLocations() {
+    let curLat; 
+    let curLng;
+    let curCnt;
+
+    for (var i in locationTable) {
+        curLat = locationTable[i].lat;
+        curLng = locationTable[i].lng;
+        curCnt = locationTable[i].cnt;
+
+        locations.data.push({lat: curLat, lng: curLng, count: curCnt});
+    }
+
+    let cfg = {
+        "radius": 30,
+        "maxOpacity": 1,
+        "scaleRadius": false,
+        "useLocalExtrema": false,
+        latField: 'lat',
+        lngField: 'lng',
+        valueField: 'count'
+    };
+    
+    let heatmapLayer = new HeatmapOverlay(cfg);
+    map.addLayer(heatmapLayer);
+    heatmapLayer.setData(locations);
+
+    return map;
+}
+
+function prunSensitiveLocations(map) {
     var prunedLocationHistory = {"locations" : []};
     var polygons = [];
     var coordinates = [];
@@ -130,7 +186,7 @@ function prunSensitiveLocations() {
     var i;
     var j;
 
-    var shapes = L.PM.Utils.findLayers(mymap);
+    var shapes = L.PM.Utils.findLayers(map);
 
     for (i = 0; i < shapes.length; i++) {
         coordinates = [];

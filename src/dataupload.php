@@ -38,19 +38,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="./userpanel.php">Home <span class="sr-only">(current)</span></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./analyzedata.php">Analyze User Data</a>
+                    </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="./dataupload.php">Data upload</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
                     </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0" action="scripts/logout.php" method="post">
@@ -59,12 +51,12 @@
             </div>            
         </nav>
 
-        <div id="mapid"></div>
+        <div id="mapdiv"></div>
         
         <div id="uploadBar" class="p-1 mb-2 bg-dark text-white">
             <form id="uploadForm" enctype="multipart/form-data">
                 Select JSON to upload:
-                <input type="file" name="fileToUpload" id="fileToUpload" onchange="loadData(event)">
+                <input type="file" name="fileToUpload" id="fileToUpload">
                 <input type="button" id="upload_btn" value="Upload JSON" class="btn btn-outline-primary my-2 my-sm-0" name="submit">
             </form>
         </div>
@@ -74,5 +66,17 @@
         <script src="libs/bootstrap-4.5.2-dist/js/bootstrap.min.js"></script>
         <script src="scripts/main.js"></script>
         <script src="scripts/initmap.js"></script>
+
+        <script>
+            let datamap = createMap("mapdiv", true);
+
+            $('#fileToUpload').change(function() {
+                datamap = loadData(event, datamap);
+            });
+            
+            $("#upload_btn").on('click', function(e) {
+                prunSensitiveLocations(datamap);
+            });
+        </script>
     </body>
 </html>
