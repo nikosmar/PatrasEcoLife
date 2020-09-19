@@ -17,6 +17,12 @@
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans" rel="stylesheet">
         <link href="libs/leaflet/leaflet.css" rel="stylesheet"/>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.css" rel="stylesheet"/>
+
+        <style>
+            html {
+                background-color: #343a40;
+            }
+        </style>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -43,27 +49,60 @@
             </div>
         </nav>
 
-        <div id="dataContainer" class="container-fluid pt-3">
+        <div id="dataContainer" class="container-fluid pt-3 vh-100">
             <div class="row">
-                <div id="dataContainerLeft" class="col">
-                    <div id="dateFilter" class="container-fluid pt-1 p-1 mb-2 bg-dark text-white">
-                        From <input type="text" id="datepickerFrom">
-                        <input type="number" id="hourFrom" name="hourFrom" min="0" max="23" placeholder="18">
-                        <input type="number" id="minutesFrom" name="minutesFrom" min="0" max="59" placeholder="30">
-                        <br>
-                        To <input type="text" id="datepickerTo">
-                        <input type="number" id="hourTo" name="hourTo" min="0" max="23" placeholder="18">
-                        <input type="number" id="minutesTo" name="minutesTo" min="0" max="59" placeholder="30">
-                        <input type="button" value="Filter" class="btn btn-outline-primary my-2 my-sm-0" id="filter">
+                <div class="col-5 col-xl-2">
+                    <div class="row">
+                        <div class="col-sm">
+                            <input class="form-control text-light bg-dark" type="text" id="datepickerFrom">
+                        </div>
+                        <div class="col-sm">
+                            <div class="row">
+                                <div class="col">
+                                    <input class="form-control text-light bg-dark float-left" type="number" id="hourFrom" name="hourFrom" min="0" max="23" placeholder="18">
+                                </div>
+                                <div class="col">
+                                    <input class="form-control text-light bg-dark float-right" type="number" id="minutesFrom" name="minutesFrom" min="0" max="59" placeholder="30">
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="w-100"></div>
-
-                    <div id="mapCon" class="h-90">
+                </div>
+                <div class="col-5 col-xl-2">
+                    <div class="row">
+                        <div class="col-sm">
+                            <input class="form-control text-light bg-dark" type="text" id="datepickerTo">
+                        </div>
+                        <div class="col-sm">
+                            <div class="row">
+                                <div class="col">
+                                    <input class="form-control text-light bg-dark" type="number" id="hourTo" name="hourTo" min="0" max="23" placeholder="18">
+                                </div>
+                                <div class="col">
+                                    <input class="form-control text-light bg-dark" type="number" id="minutesTo" name="minutesTo" min="0" max="59" placeholder="30">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-xl-1">
+                    <div class="row">
+                        <div class="col">
+                            <input type="button" value="Filter" class="btn btn-outline-primary my-2 my-sm-0" id="filter">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row h-100">
+                <div id="dataContainerLeft" class="col-12 col-xl-6 h-100">
+                    <div class="row h-100">
+                        <div class="col h-100">
+                            <div id="mapCon" class="h-100"></div>
+                        </div>
                     </div>
                 </div>
                 
-                <div id="dataContainerRight" class="col">
+                <div id="dataContainerRight" class="col-12 col-xl-6 h-100">
                     <div id="percentageTableCon" class="table-responsive-sm">
                         <table id="percentageTable" class="table table-dark table-striped">
                             <thead>
@@ -121,7 +160,6 @@
         <script src="libs/leaflet/leaflet.js"></script>
         <script src="libs/heatmapjs/build/heatmap.js"></script>
         <script src="libs/heatmapjs/plugins/leaflet-heatmap/leaflet-heatmap.js"></script>
-        <script src="scripts/main.js"></script>
         <script src="scripts/initmap.js"></script>
 
         <script>

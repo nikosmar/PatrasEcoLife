@@ -49,8 +49,11 @@ button[name="register"] {
 }
 
 #mapCon {
-    height: 900px;
-    z-index:1;
+    z-index: 1;
+}
+
+#percentageChartCon {
+    color: #f8f9fa;
 }
 
 #adminDataContainer {
@@ -73,11 +76,18 @@ button[name="register"] {
 #adminSidebar input[type=number] {
     -moz-appearance:textfield;
 }
+#dataContainer input[type=number] {
+    -moz-appearance:textfield;
+}
 
 /* Chrome, Safari, Edge, Opera */
 #adminSidebar input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+#dataContainer input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 #GraphLabel{

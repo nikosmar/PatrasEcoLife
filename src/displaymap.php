@@ -66,26 +66,32 @@
         <div id="adminDataContainer" class="container-fluid ">  
             <div class="row h-100">
                 <div id="sidebarCol" class="col-3">
-                    <div id="adminSidebar" class="container-fluid pt-3">  
+                    <div id="adminSidebar" class="container-fluid pt-3">
+                        <div class="row">
+                            <div class="col">
+                                <br>
+                                Select year range:
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div id="yearFrom" class="col">
-                                <br>
-                                Select years range:
-                                <br>
                                 <select class="custom-select text-light bg-dark" id="selectYearFrom"></select>
                             </div>
                             <div id="yearTo" class="col">
-                                <br>
-                                <br>
                                 <select class="custom-select text-light bg-dark" id="selectYearTo"></select>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div id="monthFrom" class="col">
+                            <div class="col">
                                 <br>
                                 Select month range:
-                                <br>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div id="monthFrom" class="col">
                                 <select class="custom-select text-light bg-dark" id="selectMonthFrom">
                                     <option selected value="1">January</option>
                                     <option value="2">February</option>
@@ -102,8 +108,6 @@
                                 </select>
                             </div>
                             <div id="monthTo" class="col">
-                                <br>
-                                <br>
                                 <select class="custom-select text-light bg-dark" id="selectMonthTo">
                                     <option value="1">January</option>
                                     <option value="2">February</option>
@@ -122,10 +126,14 @@
                         </div>
 
                         <div class="row">
-                            <div id="weekdayFrom" class="col">
+                            <div class="col">
                                 <br>
                                 Select weekday(s):
-                                <br>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div id="weekdayFrom" class="col">
                                 <select class="custom-select text-light bg-dark" id="selectWeekdayFrom">
                                     <option selected value="0">Monday</option>
                                     <option value="1">Tuesday</option>
@@ -137,8 +145,6 @@
                                 </select>
                             </div>
                             <div id="weekdayTo" class="col">
-                                <br>
-                                <br>
                                 <select class="custom-select text-light bg-dark" id="selectWeekdayTo">
                                     <option value="0">Monday</option>
                                     <option value="1">Tuesday</option>
@@ -155,7 +161,11 @@
                             <div class="col">
                                 <br>
                                 Select time range:
-                                <br>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
                                 <div class="row">
                                     <div class="col">
                                         <input class="form-control text-light bg-dark" type="number" value="00" min="00" max="23" id="hourFrom">
@@ -166,8 +176,6 @@
                                 </div>
                             </div>
                             <div class="col">
-                                <br>
-                                <br>
                                 <div class="row">
                                     <div class="col">
                                         <input class="form-control text-light bg-dark" type="number" value="23" min="00" max="23" id="hourTo">
@@ -186,6 +194,30 @@
                                     <input class="form-check-input" type="checkbox" name="activitiesSel" id="select-all"/>
                                     <label class="text-light" for="select-all"> Select all available types</label>
                                     <br>
+                                    
+                                    <input type="checkbox" id="ON_FOOT" value="ON_FOOT" name="activities" class="form-check-input">
+                                    <label for="ON_FOOT" class="text-light">ON_FOOT</label>
+                                    <br>
+
+                                    <input type="checkbox" id="WALKING" value="WALKING" name="activities" class="form-check-input">
+                                    <label for="WALKING" class="text-light">WALKING</label>
+                                    <br>
+
+                                    <input type="checkbox" id="STILL" value="STILL" name="activities" class="form-check-input">
+                                    <label for="STILL" class="text-light">STILL</label>
+                                    <br>
+
+                                    <input type="checkbox" id="IN_VEHICLE" value="IN_VEHICLE" name="activities" class="form-check-input">
+                                    <label for="IN_VEHICLE" class="text-light">IN_VEHICLE</label>
+                                    <br>
+
+                                    <input type="checkbox" id="RUNNING" value="RUNNING" name="activities" class="form-check-input">
+                                    <label for="RUNNING" class="text-light">RUNNING</label>
+                                    <br>
+
+                                    <input type="checkbox" id="ON_BICYCLE" value="ON_BICYCLE" name="activities" class="form-check-input">
+                                    <label for="ON_BICYCLE" class="text-light">ON_BICYCLE</label>
+                                    <br>
                                 </div>
                             </div>
                         </div>
@@ -194,7 +226,22 @@
                             <div class="col">
                                 <button type="button" id="apply" class="btn btn-outline-primary my-2 my-sm-0 float-right">Apply Filters</button>
                             </div>
-                        </div> 
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <br>
+                                <select class="custom-select text-light bg-dark float-left" id="selectFileFormat">
+                                    <option selected value="0">CSV</option>
+                                    <option value="1">XML</option>
+                                    <option value="2">JSON</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <br>
+                                <button type="button" id="download" class="btn btn-outline-primary my-2 my-sm-0 float-right">Download</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div id="mapCol" class="col-9">
@@ -254,58 +301,9 @@
             });
         </script>
 
-
         <script>
-            function createNewCheckboxt(id, name) {
-                var checkbox = document.createElement('input'); 
-                checkbox.type= 'checkbox';
-                checkbox.id = id;
-                checkbox.value = id;
-                checkbox.name = name;
-                checkbox.className = "form-check-input";
-                return checkbox;
-            }
-
-            function fillActivitiesList(types) {
-                var form = document.getElementById("activityForm");
-
-                for (var i in types) {
-                    var activity = types[i].type;
-                    var label = document.createElement("Label");
-                    var br = document.createElement("br");
-
-                    label.innerHTML = activity;
-                    label.setAttribute("for", activity);
-                    label.className = "text-light";
-
-                    form.appendChild(createNewCheckboxt(activity, "activities"));
-                    form.appendChild(label);
-                    form.appendChild(br);
-                }
-            }
-        </script>
-
-        <script type="text/javascript">
-            var types = [];
-
-            $.ajax({
-                type: 'GET',
-                url: 'scripts/get_activity_types.php',
-                data: {},
-                success: function(data) {
-                    types = JSON.parse(data);
-
-                    fillActivitiesList(types);
-                },
-                error: function() {
-                    alert('An error occured.');
-                }
-            });
-
             let datamap = createMap("mapp", false);
-        </script>
 
-        <script>
             $('#apply').click(function() {
                 var year_from = document.getElementById("selectYearFrom").value;
                 var year_to = document.getElementById("selectYearTo").value;
@@ -351,6 +349,31 @@
                         if (userLocations.length) {
                             datamap = loadDataFromDB(userLocations, datamap);
                         }
+                    },
+                    error: function() {
+                        alert('An error occured.');
+                    }
+                });
+            });
+        </script>
+
+        <script>
+            function downloadFile(fileName) {
+                var link = document.createElement('a');
+                link.href = "userdata/" + fileName;
+                link.download = fileName;
+                link.click();
+            }
+
+            $('#download').click(function() {
+                var filetype = document.getElementById("selectFileFormat").value;
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'scripts/prepare_file.php',
+                    data: {filetype},
+                    success: function(data) {
+                        downloadFile(data);
                     },
                     error: function() {
                         alert('An error occured.');
