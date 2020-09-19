@@ -33,6 +33,29 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="./displaymap.php">Display Map</a>
                     </li>
+                    <button type="submit" data-target="#myModal"  class="btn btn-outline-danger my-2 my-sm-0" data-toggle="modal">Delete Data</button>
+                <!-- Modal -->
+                    <div id="myModal" class="modal" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Delete Data</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Do you want to delete all the data?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                    <button id="deleteData" type="submit" class="btn btn-danger" data-dismiss="modal">Yes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </ul>
                 <form class="form-inline my-2 my-lg-0" action="scripts/logout.php" method="post">
                     <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Logout</button>
@@ -187,6 +210,7 @@
         <script src="libs/leaflet/leaflet.js"></script>
         <script src="libs/heatmapjs/build/heatmap.js"></script>
         <script src="libs/heatmapjs/plugins/leaflet-heatmap/leaflet-heatmap.js"></script>
+        <script src="scripts/delete_Data.js"></script>
 
         <script src="scripts/initmap.js"></script>
 

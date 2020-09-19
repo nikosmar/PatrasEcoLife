@@ -79,3 +79,7 @@ button[name="register"] {
   -webkit-appearance: none;
   margin: 0;
 }
+
+#GraphLabel{
+    color: #77a36c;
+}
