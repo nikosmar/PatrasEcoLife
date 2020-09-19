@@ -17,7 +17,7 @@
   		exit();
 	}
 
-	$sql = mysqli_query($conn, "SELECT date(upload_date) FROM upload WHERE username = '$session_username' ORDER BY date(upload_date) DESC LIMIT 1;");
+	$sql = mysqli_query($conn, "SELECT date(latest_upload) FROM users WHERE username = '$session_username'");
 
 	$data = array();
 	if (mysqli_num_rows($sql) > 0) {
