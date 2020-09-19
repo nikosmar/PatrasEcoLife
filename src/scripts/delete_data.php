@@ -8,10 +8,9 @@
     }
 
     $sql = "DELETE FROM activities";
-    $sql2 = "DELETE FROM upload";
     $update = "UPDATE eco_score SET score = 0, total_moving_activities=0, latest_update=-1;";
 
-   if (mysqli_query($conn, $sql) AND mysqli_query($conn, $sql2) AND mysqli_query($conn, $update) ) {
+   if (mysqli_query($conn, $sql) AND mysqli_query($conn, $update) ) {
             echo "deleted";
     }else{
         echo "Error deleting record: " . mysqli_error($conn);
