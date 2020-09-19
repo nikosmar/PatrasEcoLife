@@ -16,7 +16,7 @@
   		exit();
 	}
 
-	$sql = mysqli_query($conn, "SELECT YEAR(ts), MONTH(ts),activity_type, COUNT(*) AS cnt FROM activities WHERE username = '$session_username' AND activity_type <> 'TILTING' AND activity_type <> 'STILL'AND ts > DATE_SUB(now(), INTERVAL 12 MONTH) GROUP BY YEAR(ts), MONTH(ts), activity_type ; ");
+	$sql = mysqli_query($conn, "SELECT YEAR(ts), MONTH(ts),activity_type, COUNT(*) AS cnt FROM activities WHERE username = '$session_username' AND activity_type <> 'STILL' AND ts > DATE_SUB(now(), INTERVAL 12 MONTH) GROUP BY YEAR(ts), MONTH(ts), activity_type");
 
 	$data = array();
 	if (mysqli_num_rows($sql) > 0) {
