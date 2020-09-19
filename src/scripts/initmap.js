@@ -103,6 +103,7 @@ function loadData(event, map) {
 
     reader.onload = function(event) {
         var obj = JSON.parse(event.target.result);
+        locationHistory = {"locations" : []};
         
         for (var i in obj.locations) {
             let curLat = obj.locations[i].latitudeE7 / 10000000;
@@ -234,8 +235,8 @@ function prunSensitiveLocations(map) {
         type: 'POST',
         url: 'scripts/upload.php',
         data: {prunedLocationHistory: JSON.stringify(prunedLocationHistory), fileName: selectedFile["name"]},
-        success: function() {
-            alert('File uploaded successfully.');
+        success: function(data) {
+            alert(data);
         },
         error: function() {
             alert('An error occured.');

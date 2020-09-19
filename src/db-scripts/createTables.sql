@@ -5,16 +5,8 @@ CREATE TABLE users (
     email varchar(128) NOT NULL,
     firstname VARCHAR(128) NOT NULL,
     lastname VARCHAR(128) NOT NULL,
+    last_upload TIMESTAMP NULL DEFAULT NULL after,
     admin BOOLEAN DEFAULT FALSE
-);
-
-CREATE TABLE upload (
-    id INT AUTO_INCREMENT,
-    PRIMARY KEY (id),
-    username VARCHAR(128),
-    file_path VARCHAR(100),
-    upload_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (username) REFERENCES users(username)
 );
 
 CREATE TABLE activities (
