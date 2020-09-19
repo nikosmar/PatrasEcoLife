@@ -26,3 +26,13 @@ CREATE TABLE activities (
     confidence INT NOT NULL,
     FOREIGN KEY (username) REFERENCES users(username)
 );
+
+CREATE TABLE eco_score (
+	id INT AUTO_INCREMENT,
+    PRIMARY KEY (id),
+    username VARCHAR(128),
+    score DECIMAL (5, 4),
+    total_moving_activities INT,
+    latest_update INT,
+    FOREIGN KEY (username) REFERENCES users(username)
+);

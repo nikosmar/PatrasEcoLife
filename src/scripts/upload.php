@@ -10,13 +10,45 @@ if (isset($_POST['prunedLocationHistory']) && isset($_POST['fileName'])) {
 
     valid_file_type($_POST['fileName']);
 
+    $total_moving_activities = 0;
+    $eco_moving_activities = 0;
+
     // insert activities to DB
     $jsonString = $_POST['prunedLocationHistory'];
     $jsonStream = \JsonMachine\JsonMachine::fromString($jsonString, "/locations");
     
     foreach ($jsonStream as $location => $locationDataArray) {
-        update_activities_table($locationDataArray);
+        list($total_moving_activities, $eco_moving_activities) = update_activities_table($locationDataArray, $total_moving_activities, $eco_moving_activities);
     }
+
+    $sqlSel = mysqli_query($link, "SELECT score, total_moving_activities AS tma, latest_update FROM eco_score WHERE username = '$username'");
+    $data = array();
+    $data = mysqli_fetch_array($sqlSel, MYSQLI_ASSOC);
+
+    if ($total_moving_activities > 0) {
+        $sqlUpd = "";
+        $cur_month = date('m');
+
+        if ($data["latest_update"] == $cur_month) {
+            $new_total = $data["tma"] + $total_moving_activities;
+            $new_score = ($data["score"] * $data["tma"] + $eco_moving_activities) / $new_total;
+    
+            $sqlUpd = "UPDATE eco_score SET score = '$new_score', total_moving_activities = '$new_total' WHERE username = '$username'";
+        }
+        else {
+            $new_score = $eco_moving_activities / $total_moving_activities;
+            
+            $sqlUpd = "UPDATE eco_score SET score = '$new_score', total_moving_activities = '$total_moving_activities', latest_update='$cur_month' WHERE username = '$username'";
+        }
+
+        if ($link->query($sqlUpd) === TRUE) {
+
+        } else {
+
+        }
+    }
+    
+    mysqli_free_result($sqlSel);
 
     // update last upload date
     update_users_table();
@@ -49,7 +81,7 @@ function update_users_table() {
     }
 }
 
-function update_activities_table($location) {
+function update_activities_table($location, $total_moving_activities, $eco_moving_activities) {
     $link = mysqli_connect("localhost", "nikosm", "1q2w3e4r", "site");
     $username = $_SESSION["username"];
     
@@ -101,10 +133,23 @@ function update_activities_table($location) {
             $confidence
         )";
 
+
+        // update eco_score table
+        $month_of_activity = date("m", $ts);
+        $year_of_activity = date("Y", $ts);
+        if ($type != "STILL" && $month_of_activity == date('m') && $year_of_activity == date('Y')) {
+            $total_moving_activities++;
+            if ($type != "IN_VEHICLE") {
+                $eco_moving_activities++;
+            }
+        }
+
         if (!$link->query($sql)) {
             echo "Database error.";
             exit(1);
         }
     }
+
+    return array($total_moving_activities, $eco_moving_activities);
 }
 ?>

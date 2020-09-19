@@ -1,0 +1,27 @@
+array (
+  0 => 
+  array (
+    'activity_type' => 'ON_FOOT',
+    'ts' => '2020-03-11 23:56:06',
+  ),
+  1 => 
+  array (
+    'activity_type' => 'IN_CAR',
+    'ts' => '2020-03-11 23:55:05',
+  ),
+  2 => 
+  array (
+    'activity_type' => 'IN_CAR',
+    'ts' => '2020-03-11 23:53:21',
+  ),
+  3 => 
+  array (
+    'activity_type' => 'ON_FOOT',
+    'ts' => '2020-03-11 23:52:20',
+  ),
+  4 => 
+  array (
+    'activity_type' => 'IN_VEHICLE',
+    'ts' => '2019-11-25 19:56:52',
+  ),
+)
