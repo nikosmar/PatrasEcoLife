@@ -33,8 +33,8 @@ if (isset($_POST['prunedLocationHistory']) && isset($_POST['fileName'])) {
             $new_total = $data["tma"] + $total_moving_activities;
             $new_score = ($data["score"] * $data["tma"] + $eco_moving_activities) / $new_total;
     
-            $sqlUpd = "UPDATE eco_score SET score = '$new_score', total_moving_activities = '$new_total' WHERE username = '$username'";
-        }
+            $sqlUpd = "UPDATE eco_score SET score = '$new_score', total_moving_activities = '$new_total' WHERE username = '$username'"; 
+        }  
         else {
             $new_score = $eco_moving_activities / $total_moving_activities;
             
