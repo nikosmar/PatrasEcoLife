@@ -31,13 +31,13 @@ $(document).ready(function(){
             dataType : 'json',
             success: function(data){
  
-               if(data.length != 0 ){
-                var LastUpload = data[0]["date(upload_date)"];
-                document.getElementById('lastUpload').innerHTML  = LastUpload;
-               }else{
-                var LastUpload = 'You do not have any uploads';
-                document.getElementById('lastUpload').innerHTML  = LastUpload;
-               }
+                if (data.length != 0 ) {
+                    var LastUpload = data[0]["date(last_upload)"];
+                    document.getElementById('lastUpload').innerHTML  = LastUpload;
+                }else{
+                    var LastUpload = 'You do not have any uploads';
+                    document.getElementById('lastUpload').innerHTML  = LastUpload;
+                }
             },
             error: function(xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");

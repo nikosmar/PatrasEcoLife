@@ -38,11 +38,12 @@
 	$leaderBoard = array();
 	$data["user"] = false;
 	$count = 0;
-	for($i = 0; $i <sizeof($data); $i++){
-		if($count < 3){
-			if($data[$i]["firstname"]==$user_check[0]["firstname"] AND $data[$i]["lastname"]==$user_check[0]["lastname"] AND $data[$i]["score"]==$user_check[0]["score"]){
+	for ($i = 0; $i < sizeof($data); $i++) {
+		if ($count < 3) {
+			if ($data[$i]["firstname"] == $user_check[0]["firstname"] AND $data[$i]["lastname"] == $user_check[0]["lastname"] AND $data[$i]["score"]==$user_check[0]["score"]) {
 				$data[$i]["user"] = true;
-			}else{
+			}
+			else {
 				$data[$i]["user"] = false;
 			}
 
@@ -56,9 +57,10 @@
 			array_push($leaderBoard, $data[$i]);
 			
 			$count++;
-		}else{
+		}
+		else {
 			// $count++;
-			if($data[$i]["firstname"]==$user_check[0]["firstname"] AND $data[$i]["lastname"]==$user_check[0]["lastname"] AND $data[$i]["score"]==$user_check[0]["score"]){
+			if ($data[$i]["firstname"]==$user_check[0]["firstname"] AND $data[$i]["lastname"]==$user_check[0]["lastname"] AND $data[$i]["score"]==$user_check[0]["score"]){
 				$firstname = $data[$i]["firstname"];
 				$lastname = substr($data[$i]["lastname"], 0, 1);
 				$name = $firstname . ' ' .$lastname .'.';
@@ -76,6 +78,9 @@
 
 	echo json_encode($leaderBoard);
 
-	mysqli_free_result($sql);
+	mysqli_free_result($rank);
+	mysqli_free_result($usersRank);
+	mysqli_free_result($user);
+
     mysqli_close($conn);
  ?> 

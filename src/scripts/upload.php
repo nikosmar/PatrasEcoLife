@@ -10,17 +10,23 @@ if (isset($_POST['prunedLocationHistory']) && isset($_POST['fileName'])) {
 
     valid_file_type($_POST['fileName']);
 
+    $link = mysqli_connect("localhost", "nikosm", "1q2w3e4r", "site");
+    $username = $_SESSION["username"];
+
     $total_moving_activities = 0;
     $eco_moving_activities = 0;
 
     // insert activities to DB
     $jsonString = $_POST['prunedLocationHistory'];
     $jsonStream = \JsonMachine\JsonMachine::fromString($jsonString, "/locations");
-    
+
     foreach ($jsonStream as $location => $locationDataArray) {
-        list($total_moving_activities, $eco_moving_activities) = update_activities_table($locationDataArray, $total_moving_activities, $eco_moving_activities);
+        if (count($locationDataArray["activity"]) > 0) {
+            list($total_moving_activities, $eco_moving_activities) = update_activities_table($locationDataArray, $total_moving_activities, $eco_moving_activities);
+        }
     }
 
+    // update user's eco score
     $sqlSel = mysqli_query($link, "SELECT score, total_moving_activities AS tma, latest_update FROM eco_score WHERE username = '$username'");
     $data = array();
     $data = mysqli_fetch_array($sqlSel, MYSQLI_ASSOC);
@@ -41,10 +47,9 @@ if (isset($_POST['prunedLocationHistory']) && isset($_POST['fileName'])) {
             $sqlUpd = "UPDATE eco_score SET score = '$new_score', total_moving_activities = '$total_moving_activities', latest_update='$cur_month' WHERE username = '$username'";
         }
 
-        if ($link->query($sqlUpd) === TRUE) {
-
-        } else {
-
+        if (!$link->query($sqlUpd)) {
+            echo "Database error.";
+            exit(1);
         }
     }
     
@@ -57,9 +62,9 @@ if (isset($_POST['prunedLocationHistory']) && isset($_POST['fileName'])) {
 }
 
 function valid_file_type($fileName) {
-    $extension = end(explode(".", $fileName));
+    $extension = explode(".", $fileName);
     
-    if ($extension != "json") {
+    if (end($extension) != "json") {
         echo "File provided is not json. Please provide a .json file.";
         exit(1);
     }
@@ -133,12 +138,13 @@ function update_activities_table($location, $total_moving_activities, $eco_movin
             $confidence
         )";
 
-
         // update eco_score table
         $month_of_activity = date("m", $ts);
         $year_of_activity = date("Y", $ts);
+        
         if ($type != "STILL" && $month_of_activity == date('m') && $year_of_activity == date('Y')) {
             $total_moving_activities++;
+            
             if ($type != "IN_VEHICLE") {
                 $eco_moving_activities++;
             }
@@ -150,6 +156,6 @@ function update_activities_table($location, $total_moving_activities, $eco_movin
         }
     }
 
-    return array($total_moving_activities, $eco_moving_activities);
+    return array($total_moving_activities, $eco_moving_activities);   
 }
 ?>

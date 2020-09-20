@@ -17,7 +17,7 @@
   		exit();
 	}
 
-	$sql = mysqli_query($conn, "SELECT date(latest_upload) FROM users WHERE username = '$session_username'");
+	$sql = mysqli_query($conn, "SELECT date(last_upload) FROM users WHERE username = '$session_username'");
 
 	$data = array();
 	if (mysqli_num_rows($sql) > 0) {
