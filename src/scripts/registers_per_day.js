@@ -75,6 +75,9 @@ function GraphD(registersPerDay){
                         beginAtZero: true,
                     }
                 }]
+            },
+            legend: {
+                display: false
             }
         }
     });

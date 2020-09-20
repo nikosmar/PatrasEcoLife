@@ -36,6 +36,9 @@ function UpdateTheGraph(MonthlyEcoScores){
                         max: 100
                     }
                 }]
+            },
+            legend: {
+                display: false
             }
         }
     });

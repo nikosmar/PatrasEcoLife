@@ -66,6 +66,9 @@ function GraphE(registersPerHour){
                         beginAtZero: true,
                     }
                 }]
+            },
+            legend: {
+                display: false
             }
         }
     });

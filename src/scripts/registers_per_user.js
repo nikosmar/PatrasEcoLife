@@ -5,7 +5,6 @@ function RegistersPerUser(){
             url: 'scripts/get_registers_per_user.php',
             dataType : 'json',
             success: function(data){
-
                 var registersPerUser = {
                     number_of_users:[],
                     registers:[]
@@ -21,30 +20,35 @@ function RegistersPerUser(){
                 // intervals width
                 var delta = parseInt(r/k);
 
-                var count_users = 0;
                 var lower_limit = min_registers;
                 var upper_limit = lower_limit + delta;
-                for(var i = 0 ; i < k; i++){
-                    for( var j = 0; j < data.length; j++){
-                        if(parseInt(data[j]["cnt"]) >= lower_limit && parseInt(data[j]["cnt"]) <= upper_limit){
-                            // console.log(data[j]["cnt"]);
-                            count_users += 1;
-                            data.shift();
-                        }else{
-                            registersPerUser.number_of_users.push(count_users);
-                            var field = lower_limit + "-" + upper_limit;
-                            registersPerUser.registers.push(field);
-                            lower_limit = upper_limit +1 ;
-                            upper_limit = lower_limit + delta;
-                            count_users = 0;
+
+                var lower_limits = [];
+                var upper_limits = [];
+
+                for (var i = 0; i < k; i++) {
+                    lower_limits.push(lower_limit);
+                    upper_limits.push(upper_limit);
+
+                    var field = lower_limit + "-" + upper_limit;
+                    registersPerUser.registers.push(field);
+                    registersPerUser.number_of_users.push(0);
+
+                    lower_limit = upper_limit +1 ;
+                    upper_limit = lower_limit + delta;
+                }
+
+                for (var i = 0; i < data.length; i++) {
+                    for (var j = 0; j < k; j++) {
+                        if (parseInt(data[i]["cnt"]) >= lower_limits[j] && parseInt(data[i]["cnt"]) <= upper_limits[j]) {
+                            registersPerUser.number_of_users[j]++;
                             break;
                         }
                     }
                 }
-                console.log(registersPerUser);
-                // GraphB(registersPerUser);
-                // TableB(registersPerUser);
 
+                GraphB(registersPerUser);
+                TableB(registersPerUser);
             },
             error: function(xhr, status, error) {
                 var err = eval("(" + xhr.responseText + ")");
@@ -94,6 +98,9 @@ function GraphB(registersPerUser){
                         beginAtZero: true,
                     }
                 }]
+            },
+            legend: {
+                display: false
             }
         }
     });

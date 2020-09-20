@@ -5,7 +5,7 @@ CREATE TABLE users (
     email varchar(128) NOT NULL,
     firstname VARCHAR(128) NOT NULL,
     lastname VARCHAR(128) NOT NULL,
-    last_upload TIMESTAMP NULL DEFAULT NULL after,
+    last_upload TIMESTAMP NULL DEFAULT NULL,
     admin BOOLEAN DEFAULT FALSE
 );
 

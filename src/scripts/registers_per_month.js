@@ -92,6 +92,10 @@ function GraphC(monthlyRegisters){
                     }
                 }]
             }
+            ,
+            legend: {
+                display: false
+            }
         }
     });
 }

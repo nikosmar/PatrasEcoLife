@@ -25,7 +25,7 @@
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark">
             <a class="navbar-brand" href="#">Navbar</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -96,7 +96,7 @@
             <div class="row h-100">
                 <div id="dataContainerLeft" class="col-12 col-xl-6 h-100">
                     <div class="row h-100">
-                        <div class="col h-100">
+                        <div class="col h-100 p-3">
                             <div id="mapCon" class="h-100"></div>
                         </div>
                     </div>

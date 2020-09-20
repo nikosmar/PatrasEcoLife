@@ -65,6 +65,9 @@ function GraphF(registersPerYear){
                         beginAtZero: true,
                     }
                 }]
+            },
+            legend: {
+                display: false
             }
         }
     });

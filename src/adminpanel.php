@@ -17,7 +17,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans" rel="stylesheet">
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark">
             <a class="navbar-brand" href="#">Navbar</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -61,7 +61,7 @@
             </div>
         </nav> 
 
-        <div class="container-fluid pt-3"  style="background-color: #292b2c">
+        <div class="container-fluid pt-3"  style="background-color: #343a40">
           <div class="row align-items-start">
             <div class="col-4">
                 <h2 id="GraphLabel"><u>Users Activities Percentage</u></h2>
@@ -87,8 +87,8 @@
                   <table  class="table table-striped table-dark">
                         <thead>
                             <tr>
-                                <th scope="col">Rank</th>
-                                <th scope="col">Name</th>
+                                <th scope="col">Users</th>
+                                <th scope="col">Registers</th>
                             </tr>
                         </thead>
                         <tbody  id="tableB">

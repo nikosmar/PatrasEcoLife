@@ -14,7 +14,7 @@
             $filetype = ".json";
     }
 
-    $filename = 'user_activities_' . date('Y-m-d_H:i:s') . $filetype;
+    $filename = 'user_activities_' . date('Y-m-d_H-i-s') . $filetype;
     $filepath = "../userdata/" . $filename;
 
     if ($filetype == ".csv") {

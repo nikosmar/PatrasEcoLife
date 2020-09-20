@@ -5,7 +5,7 @@ function loadRegisterForm() {
             document.getElementById("loginForm").innerHTML = this.responseText;
         }
     };
-    xhttp.open("GET", "register_form.html", true);
+    xhttp.open("POST", "register_form.html", true);
     xhttp.send();
 }
 

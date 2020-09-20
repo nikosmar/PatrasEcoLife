@@ -38,14 +38,16 @@ function ActivitiesDistGraph(activities_dstr){
     var activities = activities_dstr.type;
     var percentage = activities_dstr.percentage;
 
+    var colors = ['#007bff','#77a36c','#cf7806','#811d8a', '#b9d4f0', '#9491fa'];
+
     var ctx = document.getElementById('ChartA').getContext('2d');
     var barChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'pie',
         data: {
             labels: activities,
             datasets: [{
                 data: percentage,
-                backgroundColor: 'rgba(87, 172, 83, 0.2)',
+                backgroundColor: colors,
                 borderWidth: 1,
                 pointHoverBorderWidth: 10,
             }]
