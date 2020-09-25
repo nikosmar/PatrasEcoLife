@@ -5,7 +5,7 @@ function RegistersPerDay(){
             url: 'scripts/get_registers_per_day.php',
             dataType : 'json',
             success: function(data){
-                var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Sunday'];
+                var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
                 var registersPerDay = {
                     day : [],
                     total : []
